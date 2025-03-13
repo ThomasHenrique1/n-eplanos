@@ -1,6 +1,46 @@
+'use client'; 
+/* eslint-disable @next/next/no-img-element */
+import { useEffect, useState } from 'react';
 import Link from "next/link";
+import { supabase } from '@/lib/supabase';
 
 export default function Home() {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const { data, error } = await supabase
+          .storage
+          .from('image-logo') // Nome do bucket
+          .list('', { limit: 10 }); // Pegando as 10 imagens
+
+        if (error) {
+          console.log('Erro ao buscar imagens:', error.message);
+        } else {
+          // Verifique os dados recebidos
+          console.log('Imagens recebidas:', data);
+
+          const urls = data?.map(file => {
+            // Construindo a URL manualmente
+            const publicUrl = `https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo/${file.name}`;
+            return publicUrl;
+          }) || [];
+
+          // Atualiza o estado com as URLs das imagens
+          setImageUrls(urls);
+
+          // Verifique se as URLs estão corretas
+          console.log('URLs das imagens:', urls);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar imagens:', error);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* Seção Hero */}
@@ -33,6 +73,26 @@ export default function Home() {
             <h3 className="text-xl font-semibold">Atendimento 24h</h3>
             <p className="text-gray-600">Suporte especializado sempre que precisar.</p>
           </div>
+        </div>
+      </section>
+
+      {/* Seção de Logos de Planos de Saúde */}
+      <section className="w-full max-w-4xl mt-10 p-6 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-center">Nossos Planos de Saúde Parceiros</h2>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mt-6">
+          {imageUrls.length > 0 ? (
+            imageUrls.map((url, index) => (
+              <div key={index} className="w-full flex justify-center">
+                <img
+                  src={url}
+                  alt={`Logo do plano de saúde ${index + 1}`}
+                  className="w-24 h-24 object-contain"
+                />
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">Carregando imagens...</p>
+          )}
         </div>
       </section>
 
