@@ -12,13 +12,14 @@ export default function LeadForm() {
     cnpj: false,
     plano_saude: false,
     formacao_academica: false,
+    tipoCotacao: "",  // Novo campo para o tipo de cotação
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type, checked, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, type, checked, value } = e.target as HTMLInputElement;
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -52,6 +53,7 @@ export default function LeadForm() {
         cnpj: false,
         plano_saude: false,
         formacao_academica: false,
+        tipoCotacao: "",  // Resetando o campo tipoCotacao
       });
     } else {
       setMessage(`Erro: ${data.error}`);
@@ -142,6 +144,23 @@ export default function LeadForm() {
           />
           Tem formação acadêmica?
         </label>
+
+        {/* Campo de tipo de cotação */}
+        <div className="flex flex-col">
+          <label htmlFor="tipoCotacao" className="font-medium">Tipo de Cotação</label>
+          <select
+            name="tipoCotacao"
+            value={form.tipoCotacao}
+            onChange={handleChange}
+            required
+            className="border p-2 rounded"
+          >
+            <option value="">Selecione o tipo de cotação</option>
+            <option value="Cotação gratuita">Cotação gratuita</option>
+            <option value="Venda de plano de saúde">Venda de plano de saúde</option>
+            <option value="Consultoria">Consultoria</option>
+          </select>
+        </div>
 
         <button
           type="submit"

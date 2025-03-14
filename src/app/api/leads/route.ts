@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 // Função de Inserção de Lead (POST)
 export async function POST(req: Request) {
   try {
-    const { nome, idade, telefone, email, preferencia_contato, cnpj, plano_saude, formacao_academica } =
+    const { nome, idade, telefone, email, preferencia_contato, cnpj, plano_saude, formacao_academica, tipoCotacao } =
       await req.json();
 
     // Pegando o ID do corretor logado
@@ -30,19 +30,18 @@ export async function POST(req: Request) {
     const corretorComMenosLeads = corretoresData[0].id;
 
     // Insere os dados do lead na tabela lead_duplicate com o corretor_id associado
-    const { data, error } = await supabase.from("lead_duplicate").insert([
-      {
-        nome,
-        idade,
-        telefone,
-        email,
-        preferencia_contato,
-        cnpj,
-        plano_saude,
-        formacao_academica,
-        corretor_id: corretorComMenosLeads, // Atribuindo o lead ao corretor com menos leads
-      },
-    ]);
+    const { data, error } = await supabase.from("lead_duplicate").insert([{
+      nome,
+      idade,
+      telefone,
+      email,
+      preferencia_contato,
+      cnpj,
+      plano_saude,
+      formacao_academica,
+      tipoCotacao,  // Aqui estamos incluindo o tipoCotacao
+      corretor_id: corretorComMenosLeads, // Atribuindo o lead ao corretor com menos leads
+    }]);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
