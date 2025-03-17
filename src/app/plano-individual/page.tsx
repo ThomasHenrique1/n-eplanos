@@ -1,8 +1,6 @@
+import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "../../components/Section/Section";
-import BannerHero from "@/components/BannerHero/BannerHero";
 import CardList from "@/components/CardList/CardList"; 
-import ButtonCTA from "@/components/ButtonCTA/ButtonCTA";
-
 export default function PlanoIndividual() {
   const vantagens = [
     {
@@ -68,10 +66,13 @@ export default function PlanoIndividual() {
   return (
     <div className="bg-white min-h-screen">
       {/* Banner Hero */}
-      <BannerHero
-        title={"Plano de Saúde Individual"}
-        description={"Proteção e autonomia para você e sua família"}
-      />
+     <HeroSection
+        title="Plano de Saúde por Adesão"
+        description="..."
+        image="/logo.jpg" // Imagem local
+        ctaText="Faça sua Cotação"
+        ctaLink="/formulario"
+        />
 
       <div className="container mx-auto py-8 px-4 md:px-8">
         {/* Seção 1: O que é o Plano Individual? */}
@@ -114,8 +115,7 @@ export default function PlanoIndividual() {
             simples e rápida. Siga os passos abaixo para garantir sua cobertura
             médica com toda segurança e praticidade:
           </p>
-          <CardList items={etapasContratacao} columns={2} /> {/* Use o componente aqui */}
-          <ButtonCTA />
+          <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
         </Section>
       </div>
     </div>

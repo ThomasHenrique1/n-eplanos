@@ -1,7 +1,7 @@
+import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "../../components/Section/Section";
-import BannerHero from "@/components/BannerHero/BannerHero";
 import CardList from "@/components/CardList/CardList"; 
-import ButtonCTA from "@/components/ButtonCTA/ButtonCTA";
+
 
 export default function PlanoAdesao() {
   const vantagens = [
@@ -63,10 +63,13 @@ export default function PlanoAdesao() {
   return (
     <div className="bg-white min-h-screen">
       {/* Banner Hero */}
-      <BannerHero
-        title={"Plano de Saúde por Adesão"}
-        description={"Benefícios para profissionais e suas famílias"}
-      />
+      <HeroSection
+                   title="Plano de Saúde por Adesão"
+                   description="..."
+                   image="/logo.jpg" // Imagem local
+                   ctaText="Faça sua Cotação"
+                   ctaLink="/formulario"
+                 />
 
       <div className="container mx-auto py-8 px-4 md:px-8">
         {/* Seção 1: O que é o Plano por Adesão? */}
@@ -104,8 +107,7 @@ export default function PlanoAdesao() {
             A contratação de um <strong>Plano de Saúde por Adesão</strong> é
             simples e direta. Basta seguir os passos abaixo:
           </p>
-          <CardList items={etapasContratacao} columns={2} /> {/* Use o componente aqui */}
-          <ButtonCTA />
+          <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
         </Section>
       </div>
     </div>

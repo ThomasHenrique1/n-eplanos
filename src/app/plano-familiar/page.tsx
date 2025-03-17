@@ -1,7 +1,6 @@
+import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "../../components/Section/Section";
-import BannerHero from "@/components/BannerHero/BannerHero";
-import CardList from "@/components/CardList/CardList"; 
-import ButtonCTA from "@/components/ButtonCTA/ButtonCTA";
+import CardList from "@/components/CardList/CardList";
 
 export default function PlanoFamiliar() {
   const vantagens = [
@@ -58,38 +57,36 @@ export default function PlanoFamiliar() {
       description:
         "RG, CPF e comprovantes de parentesco dos beneficiários são necessários.",
     },
-    {
-      title: "5. Ativação do plano",
-      description:
-        "Após aprovação e pagamento, o plano estará ativo e pronto para uso.",
-    },
   ];
 
   return (
     <div className="bg-white min-h-screen">
       {/* Banner Hero */}
-      <BannerHero
-        title={"Plano de Saúde Familiar"}
-        description={"Cuidando da saúde de quem mais importa para você"}
+      <HeroSection
+        title="Plano Familiar"
+        description="Garanta um plano de saúde para você e sua familia."
+        image="/logo.jpg" // Imagem local
+        ctaText="Faça sua Cotação"
+        ctaLink="/formulario"
       />
 
-      <div className="container mx-auto py-8 px-4 md:px-8">
+      <div className="container mx-auto py-12 px-4 md:px-8">
         {/* Seção 1: O que é o Plano Familiar? */}
         <Section title="O que é o Plano Familiar?">
-          <p className="text-lg text-gray-700 mb-4">
-            O <strong>Plano de Saúde Familiar</strong> é a solução ideal para
+          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+            O <strong className="text-[#084040]">Plano de Saúde Familiar</strong> é a solução ideal para
             quem deseja oferecer proteção completa à família. Com um único
             plano, é possível garantir acesso a consultas, exames, internações e
             atendimento em hospitais e clínicas renomadas para todos os seus
             entes queridos.
           </p>
-          <p className="text-lg text-gray-700 mb-4">
+          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
             Além de mais segurança, esse plano oferece um excelente
             custo-benefício, reduzindo os gastos individuais com saúde. Ele é
             ideal para quem busca praticidade e quer manter toda a família
             coberta em um só contrato.
           </p>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 leading-relaxed">
             Se você valoriza o bem-estar da sua família e deseja um atendimento
             médico de qualidade, o Plano Familiar é a escolha perfeita.
           </p>
@@ -97,21 +94,20 @@ export default function PlanoFamiliar() {
 
         {/* Seção 2: Vantagens do Plano Familiar */}
         <Section title="Vantagens do Plano Familiar">
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
             Confira os principais benefícios do{" "}
-            <strong>Plano de Saúde Familiar</strong>:
+            <strong className="text-[#084040]">Plano de Saúde Familiar</strong>:
           </p>
-          <CardList items={vantagens} /> {/* Use o componente aqui */}
+          <CardList items={vantagens} />
         </Section>
 
         {/* Seção 3: Como Contratar */}
         <Section title="Como Contratar?">
-          <p className="text-lg text-gray-700 mb-6">
-            A contratação do <strong>Plano de Saúde Familiar</strong> é simples
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            A contratação do <strong className="text-[#084040]">Plano de Saúde Familiar</strong> é simples
             e rápida. Veja o passo a passo:
           </p>
-          <CardList items={etapasContratacao} columns={2} /> {/* Use o componente aqui */}
-          <ButtonCTA />
+          <CardList items={etapasContratacao} columns={3} />
         </Section>
       </div>
     </div>

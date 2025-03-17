@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from "next/link";
 import Section from "../../components/Section/Section";
-import BannerHero from "@/components/BannerHero/BannerHero";
 import CardList from "@/components/CardList/CardList"; // Importe o componente
-import ButtonCTA from "@/components/ButtonCTA/ButtonCTA";
+import HeroSection from "@/components/HeroSection/HeroSection";
 
 export default function PlanoEmpresarial() {
   const vantagens = [
@@ -65,20 +64,18 @@ export default function PlanoEmpresarial() {
       description:
         "Documentos da empresa e dos beneficiários são necessários para formalizar o contrato.",
     },
-    {
-      title: "5. Finalize a contratação",
-      description:
-        "Após aprovação e pagamento, o plano será ativado e poderá ser utilizado imediatamente.",
-    },
-  ];
+   ];
 
   return (
     <div className="bg-white min-h-screen">
       {/* Banner Hero */}
-      <BannerHero
-        title={"Plano de Saúde Empresarial"}
-        description={"Benefícios para sua empresa e colaboradores"}
-      />
+          <HeroSection
+             title="Plano Empresarial"
+             description="Garanta um plano de saúde para sua empresa"
+             image="/logo.jpg" // Imagem local
+             ctaText="Faça sua Cotação"
+             ctaLink="/formulario"
+           />
 
       <div className="container mx-auto py-8 px-4 md:px-8">
         {/* Seção 1: O que é o Plano Empresarial? */}
@@ -118,9 +115,7 @@ export default function PlanoEmpresarial() {
             A contratação do <strong>Plano de Saúde Empresarial</strong> é
             rápida e prática. Siga o passo a passo abaixo:
           </p>
-          <CardList items={etapasContratacao} columns={2} /> {/* Use o componente aqui */}
-          <ButtonCTA />
-       
+          <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
         </Section>
       </div>
     </div>
