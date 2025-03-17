@@ -3,8 +3,7 @@ import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "@/components/Section/Section";
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-//import Logo from "../../public/Logo.jpg";
-//import Image, { StaticImageData } from "next/image";
+
 
 
 export default function Home() {
@@ -21,17 +20,17 @@ export default function Home() {
     'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo/unimedseguros.webp',
   ];
 
-  const imageUrls2 = 'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//Logo.jpg';
+
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5]">
-      <HeroSection
-          title="Seu Plano de Saúde Ideal Está Aqui!"
-          description="Garanta o melhor plano de saúde para você e sua família com preços acessíveis."
-          image={imageUrls2} // Passa a logo como imagem de fundo
-          ctaText="Faça sua Cotação" // Texto do botão
-          ctaLink="/formulario" // Link do botão
-        />
+         <HeroSection
+        title="Seu Plano de Saúde Ideal Está Aqui!"
+        description="Garanta o melhor plano de saúde para você e sua família com preços acessíveis."
+        image="/logo.jpg" // Imagem local
+        ctaText="Faça sua Cotação"
+        ctaLink="/formulario"
+      />
       {/* Seção de Benefícios */}
       
       <section className="w-full max-w-4xl mt-10 p-6 bg-white shadow-lg rounded-lg">
