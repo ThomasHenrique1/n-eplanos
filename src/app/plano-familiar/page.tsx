@@ -1,6 +1,7 @@
 import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "../../components/Section/Section";
 import CardList from "@/components/CardList/CardList";
+import ContentContainer from "@/components/ContentContainer/ContentContainer";
 
 export default function PlanoFamiliar() {
   const vantagens = [
@@ -60,16 +61,17 @@ export default function PlanoFamiliar() {
   ];
 
   return (
-    <div className="bg-white min-h-screen">
+    
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5] hyphens-auto">
       {/* Banner Hero */}
       <HeroSection
-        title="Plano Familiar"
-        description="Garanta um plano de saúde para você e sua familia."
+        title="Plano de Saúde Familiar"
+        description="Proteja quem você ama com cobertura completa e benefícios exclusivos."
         image="/logo.jpg" // Imagem local
         ctaText="Faça sua Cotação"
         ctaLink="/formulario"
       />
-
+      <ContentContainer>
       <div className="container mx-auto py-12 px-4 md:px-8">
         {/* Seção 1: O que é o Plano Familiar? */}
         <Section title="O que é o Plano Familiar?">
@@ -110,6 +112,8 @@ export default function PlanoFamiliar() {
           <CardList items={etapasContratacao} columns={3} />
         </Section>
       </div>
+      </ContentContainer>
     </div>
+    
   );
 }

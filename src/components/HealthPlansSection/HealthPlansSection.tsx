@@ -9,7 +9,7 @@ export default function HealthPlansSection({ imageUrls }: HealthPlansSectionProp
       {imageUrls.map((url, index) => (
         <div
           key={index}
-          className="flex justify-center items-center p-6 bg-white rounded-xl hover:shadow-lg transition-all transform hover:scale-105 border border-[#E0E0E0]"
+          className="flex justify-center items-center p-3 bg-white rounded-xl hover:shadow-lg transition-all transform hover:scale-105 border border-[#E0E0E0]"
         >
           <img
             src={url}

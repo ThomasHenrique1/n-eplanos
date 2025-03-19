@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#084040] text-white py-12">
+    <footer className="bg-[#084040] text-white py-10">
       <div className="container mx-auto flex justify-between">
         <div>
           <Link href="/" className="flex flex-col items-start">
@@ -17,7 +17,6 @@ export default function Footer() {
             <li><Link href="/" className="text-[#A1A6A2] hover:text-white">Home</Link></li>
             <li><Link href="/servicos" className="text-[#A1A6A2] hover:text-white">Serviços</Link></li>
             <li><Link href="/sobre" className="text-[#A1A6A2] hover:text-white">Sobre Nós</Link></li>
-            <li><Link href="/contato" className="text-[#A1A6A2] hover:text-white">Contato</Link></li>
           </ul>
         </div>
         <div>

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Section from "../../components/Section/Section";
 import CardList from "@/components/CardList/CardList"; // Importe o componente
 import HeroSection from "@/components/HeroSection/HeroSection";
+import ContentContainer from "@/components/ContentContainer/ContentContainer";
+import HowItWorksSection from "@/components/HowItWorksSection/HowItWorksSection";
 
 export default function PlanoEmpresarial() {
   const vantagens = [
@@ -67,16 +69,16 @@ export default function PlanoEmpresarial() {
    ];
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5] hyphens-auto">
       {/* Banner Hero */}
           <HeroSection
-             title="Plano Empresarial"
-             description="Garanta um plano de saúde para sua empresa"
+             title="Plano de Saúde Empresarial"
+             description="Planos empresariais com benefícios para sua empresa e colaboradores."
              image="/logo.jpg" // Imagem local
              ctaText="Faça sua Cotação"
              ctaLink="/formulario"
            />
-
+      <ContentContainer>
       <div className="container mx-auto py-8 px-4 md:px-8">
         {/* Seção 1: O que é o Plano Empresarial? */}
         <Section title="O que é o Plano Empresarial?">
@@ -92,11 +94,10 @@ export default function PlanoEmpresarial() {
             <strong>sócios, cônjuges, filhos e prestadores de serviço</strong>,
             dependendo do plano escolhido.
           </p>
-          <p className="text-lg text-gray-700">
-            A adesão a planos empresariais também gera economia, com valores
-            mais acessíveis e benefícios fiscais, como a dedução no Imposto de
-            Renda.
-          </p>
+        </Section>
+
+        <Section title="Como Funciona o Plano de Saúde Empresarial?">
+         <HowItWorksSection />
         </Section>
 
         {/* Seção 2: Vantagens do Plano Empresarial */}
@@ -118,6 +119,7 @@ export default function PlanoEmpresarial() {
           <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
         </Section>
       </div>
+      </ContentContainer>
     </div>
   );
 }

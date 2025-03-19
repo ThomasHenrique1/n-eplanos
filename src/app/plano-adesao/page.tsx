@@ -1,6 +1,7 @@
 import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "../../components/Section/Section";
 import CardList from "@/components/CardList/CardList"; 
+import ContentContainer from "@/components/ContentContainer/ContentContainer";
 
 
 export default function PlanoAdesao() {
@@ -61,16 +62,16 @@ export default function PlanoAdesao() {
   ];
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5] hyphens-auto">
       {/* Banner Hero */}
       <HeroSection
-                   title="Plano de Saúde por Adesão"
-                   description="..."
-                   image="/logo.jpg" // Imagem local
-                   ctaText="Faça sua Cotação"
-                   ctaLink="/formulario"
-                 />
-
+        title="Plano de Saúde por Adesão"
+        description="Descontos exclusivos para profissionais de diversas categorias"
+        image="/logo.jpg" // Imagem local
+        ctaText="Faça sua Cotação"
+        ctaLink="/formulario"
+      />
+      <ContentContainer>
       <div className="container mx-auto py-8 px-4 md:px-8">
         {/* Seção 1: O que é o Plano por Adesão? */}
         <Section title="O que é o Plano por Adesão?">
@@ -98,7 +99,8 @@ export default function PlanoAdesao() {
             acesso a benefícios exclusivos que tornam essa modalidade muito mais
             atrativa. Veja algumas das principais vantagens:
           </p>
-          <CardList items={vantagens} /> {/* Use o componente aqui */}
+          <CardList items={vantagens} /> 
+            
         </Section>
 
         {/* Seção 3: Como Contratar? */}
@@ -107,9 +109,10 @@ export default function PlanoAdesao() {
             A contratação de um <strong>Plano de Saúde por Adesão</strong> é
             simples e direta. Basta seguir os passos abaixo:
           </p>
-          <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
+          <CardList items={etapasContratacao} columns={3} /> 
         </Section>
       </div>
+      </ContentContainer>
     </div>
   );
 }

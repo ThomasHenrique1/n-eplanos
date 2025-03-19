@@ -32,9 +32,6 @@ export default function Header() {
           <Link href="/sobre" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl font-semibold">
             Sobre Nós
           </Link>
-          <Link href="/contato" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl font-semibold">
-            Contato
-          </Link>
         </nav>
 
         {/* Contato e WhatsApp (Desktop) */}
@@ -67,9 +64,6 @@ export default function Header() {
             </Link>
             <Link href="/sobre" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl">
               Sobre Nós
-            </Link>
-            <Link href="/contato" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl">
-              Contato
             </Link>
             <a
               href="https://wa.me/5511992320742"

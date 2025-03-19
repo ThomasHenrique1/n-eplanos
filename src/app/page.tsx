@@ -4,7 +4,6 @@ import ContentContainer from "@/components/ContentContainer/ContentContainer";
 import ContractTypesSection from "@/components/ContractTypesSection/ContractTypesSection";
 import HealthPlansSection from "@/components/HealthPlansSection/HealthPlansSection";
 import HeroSection from "@/components/HeroSection/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection/HowItWorksSection";
 import PlanLinks from "@/components/PlanLinks/PlanLinks";
 import Section from "@/components/Section/Section";
 
@@ -33,8 +32,8 @@ export default function Home() {
         ctaText="Faça sua Cotação"
         ctaLink="/formulario"
       />
+      {/* Container de conteúdo */}
       <ContentContainer>
-      {/* Seção de Benefícios */}
       
       {/* Seção de Links de cada plano */}
       <PlanLinks />
@@ -58,11 +57,6 @@ export default function Home() {
       {/* Tipos de Contratação */}
       <Section title="Tipos de Contratação">
         <ContractTypesSection />
-      </Section>
-
-      {/* Como Funciona o Plano de Saúde Empresarial */}
-      <Section title="Como Funciona o Plano de Saúde Empresarial?">
-        <HowItWorksSection />
       </Section>
 
       </ContentContainer>
