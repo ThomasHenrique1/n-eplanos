@@ -32,6 +32,9 @@ export default function Header() {
           <Link href="/sobre" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl font-semibold">
             Sobre Nós
           </Link>
+          <Link href="/politica" className="text-[#D9D9D9] hover:text-[#A1C7D6] transition text-xl font-semibold">
+            Política de Privacidade
+          </Link>
         </nav>
 
         {/* Contato e WhatsApp (Desktop) */}
