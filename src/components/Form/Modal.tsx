@@ -6,9 +6,8 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   message: string;
-  icon: string | React.ReactNode; // Aceita URL ou ícone do react-icons
-  backgroundColor: string;
-  textColor: string;
+  type: 'success' | 'error';
+  iconUrl: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -16,27 +15,47 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   message,
-  icon,
-  backgroundColor,
-  textColor,
+  type,
+  iconUrl,
 }) => {
   if (!isOpen) return null;
 
+  const config = {
+    success: {
+      bgColor: 'bg-green-50',
+      textColor: 'text-green-800',
+      buttonColor: 'bg-green-500',
+    },
+    error: {
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-800',
+      buttonColor: 'bg-red-500',
+    }
+  };
+
+  const { bgColor, textColor, buttonColor } = config[type];
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className={`${backgroundColor} p-6 rounded-lg shadow-lg max-w-md w-full mx-4`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Overlay com blur */}
+      <div className="absolute inset-0  bg-opacity-10 backdrop-blur" onClick={onClose}></div>
+      
+      {/* Conteúdo do modal */}
+      <div className={`relative ${bgColor} p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border ${textColor} border-opacity-20`}>
         <div className="flex flex-col items-center gap-4">
-          {/* Exibe uma imagem se o ícone for uma URL, caso contrário, exibe o ícone do react-icons */}
-          {typeof icon === "string" ? (
-            <img src={icon} alt="Ícone" className="w-16 h-16" />
-          ) : (
-            <div className={`text-6xl ${textColor}`}>{icon}</div>
-          )}
-          <h2 className={`text-2xl font-bold ${textColor}`}>{title}</h2>
+          <img 
+            src={iconUrl} 
+            alt="Ícone" 
+            className="w-16 h-16"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          <h2 className={`text-xl font-bold ${textColor}`}>{title}</h2>
           <p className={`text-center ${textColor}`}>{message}</p>
           <button
             onClick={onClose}
-            className={`mt-4 px-6 py-2 ${textColor} border ${textColor} rounded-lg hover:bg-opacity-80 transition-colors`}
+            className={`mt-4 px-6 py-2 rounded-lg ${buttonColor} text-white hover:opacity-80 transition-opacity`}
           >
             Fechar
           </button>

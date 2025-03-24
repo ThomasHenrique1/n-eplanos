@@ -60,6 +60,7 @@ export default function Home() {
       </Section>
 
       </ContentContainer>
+      
     </main>
   );
 }

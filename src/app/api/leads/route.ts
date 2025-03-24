@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
@@ -34,6 +33,17 @@ export async function POST(req: Request) {
       formacao_academica: formacao_academica === "Sim",
     };
 
+    // LOG: Verifica os dados que serão inseridos
+    console.log("🚀 Dados recebidos para inserção:", {
+      nome,
+      idade,
+      telefone,
+      email,
+      preferencia_contato,
+      booleanValues,
+      corretorComMenosLeads,
+    });
+
     // Insere o lead na tabela lead_duplicate com o corretor_id alternado
     const { data, error } = await supabase
       .from("lead_duplicate")
@@ -49,6 +59,9 @@ export async function POST(req: Request) {
         corretor_id: corretorComMenosLeads, // Atribui ao corretor com menos leads
       }])
       .select(); // Retorna os dados inseridos
+
+    // LOG: Verifica a resposta do Supabase
+    console.log("✅ Resposta do Supabase:", { data, error });
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
@@ -68,6 +81,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "Cadastro realizado com sucesso!", data }, { status: 201 });
   } catch (error) {
+    console.error("❌ Erro no POST:", error);
     return NextResponse.json({ error: "Erro ao cadastrar" }, { status: 500 });
   }
 }
@@ -91,6 +105,7 @@ export async function GET() {
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
+    console.error("❌ Erro no GET:", error);
     return NextResponse.json({ error: "Erro ao buscar leads" }, { status: 500 });
   }
 }
@@ -143,6 +158,7 @@ export async function PATCH() {
 
     return NextResponse.json({ message: "Leads redistribuídos com sucesso" }, { status: 200 });
   } catch (error) {
+    console.error("❌ Erro no PATCH:", error);
     return NextResponse.json({ error: "Erro ao redistribuir leads" }, { status: 500 });
   }
 }

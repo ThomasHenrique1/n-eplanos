@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState } from "react";
-import { FaUser, FaBirthdayCake, FaPhone, FaEnvelope, FaBuilding, FaHeartbeat, FaGraduationCap, FaFileAlt, FaExclamationTriangle } from "react-icons/fa";
-import InputField from "../../components/Form/InputField";
-import SelectField from "../../components/Form/SelectField";
-import Modal from "../../components/Form/Modal";
+import { useState, useEffect } from "react";
+import { 
+  FaUser, FaBirthdayCake, FaPhone, FaEnvelope, 
+  FaBuilding, FaHeartbeat, FaGraduationCap, 
+  FaComments
+} from "react-icons/fa";
+
+import { FormFieldWrapper } from "../../components/Form/FormFieldWrapper";
+import { FormNotice } from "../../components/Form/FormNotice";
+import InputField from "@/components/Form/InputField";
+import SelectField from "@/components/Form/SelectField";
+import Modal from "@/components/Form/Modal";
 
 export default function LeadForm() {
   const [form, setForm] = useState({
@@ -14,10 +21,9 @@ export default function LeadForm() {
     telefone: "",
     email: "",
     preferencia_contato: "",
-    cnpj: false, // Alterado para booleano
-    plano_saude: false, // Alterado para booleano
-    formacao_academica: false, // Alterado para booleano
-    tipoCotacao: "",
+    cnpj: null as boolean | null,
+    plano_saude: null as boolean | null,
+    formacao_academica: null as boolean | null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,82 +31,98 @@ export default function LeadForm() {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Função para debug - remove depois de testar
+  useEffect(() => {
+    console.log("Estado atualizado:", {
+      ...form,
+      cnpj: form.cnpj,
+      plano_saude: form.plano_saude,
+      formacao_academica: form.formacao_academica
+    });
+  }, [form]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    // Verificar se o campo é booleano e converter para true/false
-    if (name === "cnpj" || name === "plano_saude" || name === "formacao_academica") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: value === "Sim", // Converte "Sim" para true e "Não" para false
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+  
+    setForm((prev) => {
+      let newValue: string | boolean | null = value;
+  
+      if (["cnpj", "plano_saude", "formacao_academica"].includes(name)) {
+        newValue = value === "Sim" ? true : value === "Não" ? false : null;
+      }
+  
+      console.log(`Campo ${name} alterado para:`, newValue); // Debug
+      return { ...prev, [name]: newValue };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
-
-    const dadosParaEnviar = {
+  
+    // Garantir que os valores estejam como booleanos
+    const formData = {
       ...form,
-      // Os valores já estão no formato correto (booleano)
+      cnpj: form.cnpj === true ? "Sim" : form.cnpj === false ? "Não" : null,
+      plano_saude: form.plano_saude === true ? "Sim" : form.plano_saude === false ? "Não" : null,
+      formacao_academica: form.formacao_academica === true ? "Sim" : form.formacao_academica === false ? "Não" : null,
     };
-
+  
+    console.log("Dados sendo enviados:", formData);
+  
     try {
       const response = await fetch("/api/leads", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dadosParaEnviar),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-
+  
       const data = await response.json();
       setLoading(false);
-
+  
       if (response.ok) {
-        setIsSuccessModalOpen(true); // Abre o modal de sucesso
+        setIsSuccessModalOpen(true);
         setForm({
           nome: "",
           idade: "",
           telefone: "",
           email: "",
           preferencia_contato: "",
-          cnpj: false,
-          plano_saude: false,
-          formacao_academica: false,
-          tipoCotacao: "",
+          cnpj: null,
+          plano_saude: null,
+          formacao_academica: null,
         });
       } else {
-        setIsErrorModalOpen(true); // Abre o modal de erro
+        setIsErrorModalOpen(true);
         setErrorMessage(data.error || "Ocorreu um erro ao cadastrar.");
       }
     } catch (error) {
-      setIsErrorModalOpen(true); // Abre o modal de erro
+      setIsErrorModalOpen(true);
       setErrorMessage("Erro de conexão. Tente novamente mais tarde.");
       setLoading(false);
     }
   };
 
-  // Opções para os campos de seleção "Sim" ou "Não"
   const simNaoOptions = [
     { value: "", label: "Selecione" },
     { value: "Sim", label: "Sim" },
     { value: "Não", label: "Não" },
   ];
 
-  const tipoCotacaoOptions = [
-    { value: "", label: "Selecione o tipo de cotação" },
-    { value: "Cotação gratuita", label: "Cotação gratuita" },
-    { value: "Venda de plano de saúde", label: "Venda de plano de saúde" },
-    { value: "Consultoria", label: "Consultoria" },
+  const preferenciaContatoOptions = [
+    { value: "", label: "Selecione" },
+    { value: "Telefone", label: "Ligação Telefônica" },
+    { value: "WhatsApp", label: "WhatsApp" },
+    { value: "Email", label: "E-mail" }
   ];
+
+  // Função para converter valor booleano para exibição no select
+  const getBooleanSelectValue = (value: boolean | null): string => {
+    if (value === true) return "Sim";
+    if (value === false) return "Não";
+    return "";
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5] p-4">
@@ -108,13 +130,11 @@ export default function LeadForm() {
         <h2 className="text-3xl font-bold text-[#084040] mb-6 text-center">
           Faça sua cotação
         </h2>
+        
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {/* Linha 1: Nome, Idade, Email */}
+          {/* Linha 1 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaUser className="text-[#084040]" /> Nome
-              </label>
+            <FormFieldWrapper icon={<FaUser className="text-[#084040]" />} label="Nome">
               <InputField
                 type="text"
                 name="nome"
@@ -123,11 +143,9 @@ export default function LeadForm() {
                 placeholder="Coloque seu nome"
                 required
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaBirthdayCake className="text-[#084040]" /> Idade
-              </label>
+            </FormFieldWrapper>
+
+            <FormFieldWrapper icon={<FaBirthdayCake className="text-[#084040]" />} label="Idade">
               <InputField
                 type="number"
                 name="idade"
@@ -136,11 +154,9 @@ export default function LeadForm() {
                 placeholder="Coloque sua idade"
                 required
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaEnvelope className="text-[#084040]" /> Email
-              </label>
+            </FormFieldWrapper>
+
+            <FormFieldWrapper icon={<FaEnvelope className="text-[#084040]" />} label="Email">
               <InputField
                 type="email"
                 name="email"
@@ -149,15 +165,12 @@ export default function LeadForm() {
                 placeholder="Coloque seu email"
                 required
               />
-            </div>
+            </FormFieldWrapper>
           </div>
 
-          {/* Linha 2: Telefone, Possui CNPJ?, Possui plano de saúde ativo? */}
+          {/* Linha 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaPhone className="text-[#084040]" /> Telefone
-              </label>
+            <FormFieldWrapper icon={<FaPhone className="text-[#084040]" />} label="Telefone">
               <InputField
                 type="text"
                 name="telefone"
@@ -166,72 +179,52 @@ export default function LeadForm() {
                 placeholder="Coloque seu telefone"
                 required
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaBuilding className="text-[#084040]" /> Possui CNPJ?
-              </label>
+            </FormFieldWrapper>
+
+            <FormFieldWrapper icon={<FaComments className="text-[#084040]" />} label="Preferência de Contato">
+              <SelectField
+                name="preferencia_contato"
+                value={form.preferencia_contato}
+                onChange={handleChange}
+                options={preferenciaContatoOptions}
+                required
+              />
+            </FormFieldWrapper>
+
+            <FormFieldWrapper icon={<FaBuilding className="text-[#084040]" />} label="Possui CNPJ?">
               <SelectField
                 name="cnpj"
-                value={form.cnpj ? "Sim" : "Não"} // Exibe como "Sim" ou "Não" para o usuário
+                value={getBooleanSelectValue(form.cnpj)}
                 onChange={handleChange}
                 options={simNaoOptions}
                 required
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaHeartbeat className="text-[#084040]" /> Possui plano de saúde ativo?
-              </label>
+            </FormFieldWrapper>
+          </div>
+
+          {/* Linha 3 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormFieldWrapper icon={<FaHeartbeat className="text-[#084040]" />} label="Possui plano de saúde ativo?">
               <SelectField
                 name="plano_saude"
-                value={form.plano_saude ? "Sim" : "Não"} // Exibe como "Sim" ou "Não" para o usuário
+                value={getBooleanSelectValue(form.plano_saude)}
                 onChange={handleChange}
                 options={simNaoOptions}
                 required
               />
-            </div>
-          </div>
+            </FormFieldWrapper>
 
-          {/* Linha 3: Tem formação acadêmica?, Tipo de Cotação */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaGraduationCap className="text-[#084040]" /> Tem formação acadêmica?
-              </label>
+            <FormFieldWrapper icon={<FaGraduationCap className="text-[#084040]" />} label="Tem formação acadêmica?">
               <SelectField
                 name="formacao_academica"
-                value={form.formacao_academica ? "Sim" : "Não"} // Exibe como "Sim" ou "Não" para o usuário
+                value={getBooleanSelectValue(form.formacao_academica)}
                 onChange={handleChange}
                 options={simNaoOptions}
                 required
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[#3A403F] font-medium flex items-center gap-2">
-                <FaFileAlt className="text-[#084040]" /> Tipo de Cotação
-              </label>
-              <SelectField
-                name="tipoCotacao"
-                value={form.tipoCotacao}
-                onChange={handleChange}
-                options={tipoCotacaoOptions}
-                required
-              />
-            </div>
+            </FormFieldWrapper>
           </div>
 
-          {/* Aviso sobre os dados */}
-          <div className="bg-[#FFF3CD] p-4 rounded-lg border border-[#FFEEBA] flex items-center gap-3">
-            <FaExclamationTriangle className="text-[#856404] text-xl" />
-            <p className="text-sm text-[#856404]">
-              <span className="font-semibold">Aviso:</span> Todas as informações solicitadas são
-              utilizadas exclusivamente para proporcionar um atendimento personalizado e de
-              qualidade. Garantimos que nenhum dado será compartilhado ou vendido a terceiros.
-            </p>
-          </div>
-
-          {/* Botão de Envio */}
           <button
             type="submit"
             className="bg-[#084040] text-white p-3 rounded-lg hover:bg-[#0D0D0D] transition-colors duration-300 font-medium text-lg"
@@ -239,28 +232,27 @@ export default function LeadForm() {
           >
             {loading ? "Enviando..." : "Enviar"}
           </button>
+
+          <FormNotice />
         </form>
 
-        {/* Modal de Sucesso */}
+        {/* Modais */}
         <Modal
-          isOpen={isSuccessModalOpen}
-          onClose={() => setIsSuccessModalOpen(false)}
-          title="Cadastro realizado com sucesso!"
-          message="Seus dados foram enviados com sucesso. Entraremos em contato em breve."
-          icon={'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-sucesso.png'}
-          backgroundColor="bg-green-100"
-          textColor="text-green-800"
-        />
-
-        {/* Modal de Erro */}
-        <Modal
-          isOpen={isErrorModalOpen}
-          onClose={() => setIsErrorModalOpen(false)}
-          title="Erro no cadastro"
-          message={errorMessage || "Ocorreu um erro ao processar sua solicitação."}
-          icon={'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-erro.png'}
-          backgroundColor="bg-red-100"
-          textColor="text-red-800"
+          isOpen={isSuccessModalOpen || isErrorModalOpen}
+          onClose={() => {
+            setIsSuccessModalOpen(false);
+            setIsErrorModalOpen(false);
+          }}
+          title={isSuccessModalOpen ? "Cadastro realizado com sucesso!" : "Erro no cadastro"}
+          message={isSuccessModalOpen 
+            ? "Seus dados foram enviados com sucesso. Entraremos em contato em breve." 
+            : errorMessage || "Ocorreu um erro ao processar sua solicitação."
+          }
+          type={isSuccessModalOpen ? 'success' : 'error'}
+          iconUrl={isSuccessModalOpen 
+            ? 'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-sucesso.png'
+            : 'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-erro.png'
+          }
         />
       </div>
     </div>
