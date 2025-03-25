@@ -50,7 +50,7 @@ export default function Login() {
         <div className="bg-[#084040dc] py-6 px-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//logo.jpg" // Sugiro uma versão branca da logo para contraste
+              src="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//logo.jpg"
               alt="Logo da Corretora - Área de Corretores"
               width={150}
               height={70}

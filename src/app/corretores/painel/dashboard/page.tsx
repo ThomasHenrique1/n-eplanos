@@ -1,11 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { FiUser, FiMail, FiPhone, FiCheck, FiX, FiEdit, FiPhoneCall, FiCalendar } from 'react-icons/fi';
+import CorretorHeader from '@/components/corretores/CorretorHeader';
+import CorretorStats from '@/components/corretores/CorretorStats';
+import Tabs from '@/components/corretores/Tabs';
+import LeadTable from '@/components/corretores/LeadTable';
+import Pagination from '@/components/corretores/Pagination';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -14,6 +18,8 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [corretorNome, setCorretorNome] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'todos' | 'contatados' | 'pendentes'>('todos');
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     const fetchCorretor = async () => {
@@ -63,11 +69,31 @@ export default function Dashboard() {
     fetchLeads();
   }, [router]);
 
+  // Filtro corrigido
   const filteredLeads = leads.filter(lead => {
-    if (activeTab === 'contatados') return lead.contatado;
-    if (activeTab === 'pendentes') return !lead.contatado;
-    return true;
+    switch (activeTab) {
+      case 'contatados':
+        return lead.contatado === true;
+      case 'pendentes':
+        return lead.contatado === false;
+      case 'todos':
+      default:
+        return lead.contatado === false; // Mostra apenas pendentes na aba "Todos"
+    }
   });
+
+  // Estatísticas atualizadas
+  const stats = {
+    total: leads.filter(lead => !lead.contatado).length, // Total de pendentes
+    contatados: leads.filter(lead => lead.contatado).length,
+    pendentes: leads.filter(lead => !lead.contatado).length
+  };
+
+  const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+  const paginatedLeads = filteredLeads.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleMarkContacted = async (leadId: string) => {
     try {
@@ -110,160 +136,44 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#D9D9D9] p-4 md:p-8">
-      {/* Header */}
-      <header className="bg-[#084040] text-white rounded-xl shadow-lg p-6 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Painel do Corretor</h1>
-            {corretorNome && (
-              <p className="text-[#A1A6A2] mt-1">
-                Bem-vindo, <span className="text-white font-medium">{corretorNome}</span>
-              </p>
-            )}
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <div className="bg-[#0D0D0D] px-4 py-2 rounded-lg">
-              <p className="text-[#A1A6A2] text-sm">Total de Leads</p>
-              <p className="text-white text-xl font-bold">{leads.length}</p>
-            </div>
-            
-            <div className="bg-[#0D0D0D] px-4 py-2 rounded-lg">
-              <p className="text-[#A1A6A2] text-sm">Contatados</p>
-              <p className="text-green-400 text-xl font-bold">
-                {leads.filter(l => l.contatado).length}
-              </p>
-            </div>
-            
-            <div className="bg-[#0D0D0D] px-4 py-2 rounded-lg">
-              <p className="text-[#A1A6A2] text-sm">Pendentes</p>
-              <p className="text-yellow-400 text-xl font-bold">
-                {leads.filter(l => !l.contatado).length}
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CorretorHeader nome={corretorNome} />
+      
+      <div className="text-white rounded-xl mb-6">
+        <CorretorStats 
+          total={stats.total} 
+          contatados={stats.contatados} 
+          pendentes={stats.pendentes} 
+        />
+      </div>
 
-      {/* Main Content */}
       <main className="bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Tabs */}
-        <div className="flex border-b border-[#A1A6A2]">
-          <button
-            className={`px-6 py-3 font-medium ${activeTab === 'todos' ? 'text-[#084040] border-b-2 border-[#084040]' : 'text-[#3A403F]'}`}
-            onClick={() => setActiveTab('todos')}
-          >
-            Todos
-          </button>
-          <button
-            className={`px-6 py-3 font-medium ${activeTab === 'contatados' ? 'text-[#084040] border-b-2 border-[#084040]' : 'text-[#3A403F]'}`}
-            onClick={() => setActiveTab('contatados')}
-          >
-            Contatados
-          </button>
-          <button
-            className={`px-6 py-3 font-medium ${activeTab === 'pendentes' ? 'text-[#084040] border-b-2 border-[#084040]' : 'text-[#3A403F]'}`}
-            onClick={() => setActiveTab('pendentes')}
-          >
-            Pendentes
-          </button>
+        <Tabs 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          setCurrentPage={setCurrentPage} 
+        />
+
+        <div className="overflow-x-auto">
+          <LeadTable 
+            leads={paginatedLeads} 
+            handleMarkContacted={handleMarkContacted} 
+          />
         </div>
 
-        {/* Leads Table */}
-        <div className="overflow-x-auto">
-          {filteredLeads.length === 0 ? (
-            <div className="p-8 text-center text-[#3A403F]">
-              <p className="text-lg">Nenhum lead encontrado</p>
-              <p className="text-sm text-[#A1A6A2]">Quando novos leads forem atribuídos, eles aparecerão aqui</p>
-            </div>
-          ) : (
-            <table className="w-full">
-              <thead className="bg-[#F5F5F5]">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#3A403F] uppercase tracking-wider">Lead</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#3A403F] uppercase tracking-wider">Contato</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#3A403F] uppercase tracking-wider">Informações</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#3A403F] uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#3A403F] uppercase tracking-wider">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#A1A6A2]/20">
-                {filteredLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-[#F9F9F9]">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-[#084040] rounded-full flex items-center justify-center text-white">
-                          <FiUser size={18} />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-[#0D0D0D]">{lead.nome}</div>
-                          <div className="text-sm text-[#3A403F]">{lead.idade} anos</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-[#0D0D0D] flex items-center gap-2">
-                        <FiMail className="text-[#084040]" /> {lead.email}
-                      </div>
-                      <div className="text-sm text-[#0D0D0D] mt-2 flex items-center gap-2">
-                        <FiPhone className="text-[#084040]" /> {lead.telefone}
-                      </div>
-                      <div className="text-xs text-[#3A403F] mt-1">
-                        Prefere contato por: {lead.preferencia_contato}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-2">
-                        <span className={`px-2 py-1 text-xs rounded-full ${lead.cnpj ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                          CNPJ: {lead.cnpj ? 'Sim' : 'Não'}
-                        </span>
-                        <span className={`px-2 py-1 text-xs rounded-full ${lead.plano_saude ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
-                          Plano de Saúde: {lead.plano_saude ? 'Sim' : 'Não'}
-                        </span>
-                        <span className={`px-2 py-1 text-xs rounded-full ${lead.formacao_academica ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'}`}>
-                          Formação: {lead.formacao_academica ? 'Sim' : 'Não'}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${lead.contatado ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                        {lead.contatado ? 'Contatado' : 'Pendente'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm font-medium">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleMarkContacted(lead.id)}
-                          disabled={lead.contatado}
-                          className={`flex items-center gap-1 px-3 py-1 rounded ${lead.contatado ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-[#084040] text-white hover:bg-[#0D0D0D]'}`}
-                        >
-                          {lead.contatado ? (
-                            <>
-                              <FiCheck /> Contatado
-                            </>
-                          ) : (
-                            <>
-                              <FiPhoneCall /> Contatar
-                            </>
-                          )}
-                        </button>
-                        <button className="flex items-center gap-1 px-3 py-1 rounded border border-[#084040] text-[#084040] hover:bg-[#084040]/10">
-                          <FiEdit /> Editar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+        {filteredLeads.length > 0 && (
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        )}
       </main>
 
-      {/* Footer */}
       <footer className="mt-6 text-center text-sm text-[#3A403F]">
         <p>© {new Date().getFullYear()} N&H Associados - Painel do Corretor</p>
-        <p className="text-xs text-[#A1A6A2] mt-1">Versão 1.0.0</p>
+        <p className="text-xs text-[#A1A6A2] mt-1">Versão 1.0.1</p>
       </footer>
     </div>
   );
