@@ -4,7 +4,7 @@ import Footer from "@/components/Footer/Footer";
 
 export const metadata = {
   title: "N&H Associados",
-  description: "Descrição breve do site",
+  description: "Empresa especializada em seguros e benefícios.",
   icons: {
     icon: "https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//logo.jpg",
   },
