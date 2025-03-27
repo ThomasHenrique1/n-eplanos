@@ -10,6 +10,7 @@ import CorretorStats from '@/components/corretores/CorretorStats';
 import Tabs from '@/components/corretores/Tabs';
 import LeadTable from '@/components/corretores/LeadTable';
 import Pagination from '@/components/corretores/Pagination';
+import { FiSearch } from 'react-icons/fi';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<'todos' | 'contatados' | 'pendentes'>('todos');
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
     const fetchCorretor = async () => {
@@ -69,22 +71,34 @@ export default function Dashboard() {
     fetchLeads();
   }, [router]);
 
-  // Filtro corrigido
+  // Filtro combinado (tab + busca)
   const filteredLeads = leads.filter(lead => {
+    // Filtro por aba
+    let tabFilter = true;
     switch (activeTab) {
       case 'contatados':
-        return lead.contatado === true;
+        tabFilter = lead.contatado === true;
+        break;
       case 'pendentes':
-        return lead.contatado === false;
+        tabFilter = lead.contatado === false;
+        break;
       case 'todos':
       default:
-        return lead.contatado === false; // Mostra apenas pendentes na aba "Todos"
+        tabFilter = lead.contatado === false;
     }
+
+    // Filtro por busca
+    const searchFilter = searchTerm === '' || 
+      lead.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lead.telefone.includes(searchTerm);
+
+    return tabFilter && searchFilter;
   });
 
   // Estatísticas atualizadas
   const stats = {
-    total: leads.filter(lead => !lead.contatado).length, // Total de pendentes
+    total: leads.filter(lead => !lead.contatado).length,
     contatados: leads.filter(lead => lead.contatado).length,
     pendentes: leads.filter(lead => !lead.contatado).length
   };
@@ -147,11 +161,30 @@ export default function Dashboard() {
       </div>
 
       <main className="bg-white rounded-xl shadow-lg overflow-hidden">
-        <Tabs 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
-          setCurrentPage={setCurrentPage} 
-        />
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border-b border-[#A1A6A2]/20">
+          <Tabs 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            setCurrentPage={setCurrentPage} 
+          />
+          
+          {/* Barra de Pesquisa */}
+          <div className="relative mt-4 md:mt-0 w-full md:w-auto">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FiSearch className="text-[#3A403F]" />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar por nome, email ou telefone..."
+              className="pl-10 pr-20 py-2 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition w-full"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // Resetar para a primeira página ao buscar
+              }}
+            />
+          </div>
+        </div>
 
         <div className="overflow-x-auto">
           <LeadTable 
@@ -160,7 +193,7 @@ export default function Dashboard() {
           />
         </div>
 
-        {filteredLeads.length > 0 && (
+        {filteredLeads.length > 0 ? (
           <Pagination
             itemsPerPage={itemsPerPage}
             setItemsPerPage={setItemsPerPage}
@@ -168,12 +201,24 @@ export default function Dashboard() {
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
           />
+        ) : (
+          <div className="p-8 text-center text-[#3A403F]">
+            <p className="text-lg">Nenhum lead encontrado</p>
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="mt-2 text-[#084040] hover:underline"
+              >
+                Limpar busca
+              </button>
+            )}
+          </div>
         )}
       </main>
 
       <footer className="mt-6 text-center text-sm text-[#3A403F]">
         <p>© {new Date().getFullYear()} N&H Associados - Painel do Corretor</p>
-        <p className="text-xs text-[#A1A6A2] mt-1">Versão 1.0.1</p>
+        <p className="text-xs text-[#A1A6A2] mt-1">Versão 1.0.2</p>
       </footer>
     </div>
   );
