@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -10,7 +9,12 @@ import CorretorStats from '@/components/corretores/CorretorStats';
 import Tabs from '@/components/corretores/Tabs';
 import LeadTable from '@/components/corretores/LeadTable';
 import Pagination from '@/components/corretores/Pagination';
-import { FiSearch } from 'react-icons/fi';
+import { LoadingSpinner } from '@/components/Dashboard/LoadingSpinner';
+import { ErrorState } from '@/components/Dashboard/ErrorState';
+import { SearchBar } from '@/components/Dashboard/SearchBar';
+import { EmptyState } from '@/components/Dashboard/EmptyState';
+import { Footer } from '@/components/Dashboard/Footer';
+
 
 export default function Dashboard() {
   const router = useRouter();
@@ -26,7 +30,6 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Verifica a sessão através de uma chamada API
         const sessionCheck = await fetch('/api/auth/session');
         const { corretor } = await sessionCheck.json();
 
@@ -35,7 +38,6 @@ export default function Dashboard() {
           return;
         }
 
-        // Busca dados do corretor
         const { data: corretorData, error: corretorError } = await supabase
           .from('corretores')
           .select('nome')
@@ -50,7 +52,6 @@ export default function Dashboard() {
 
         setCorretorNome(corretorData.nome);
 
-        // Busca leads
         const { data: leadsData, error: leadsError } = await supabase
           .from('lead_duplicate')
           .select('*')
@@ -73,9 +74,7 @@ export default function Dashboard() {
     fetchData();
   }, [router]);
 
-  // Filtro combinado (tab + busca)
   const filteredLeads = leads.filter(lead => {
-    // Filtro por aba
     let tabFilter = true;
     switch (activeTab) {
       case 'contatados':
@@ -89,7 +88,6 @@ export default function Dashboard() {
         tabFilter = lead.contatado === false;
     }
 
-    // Filtro por busca
     const searchFilter = searchTerm === '' || 
       lead.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 
       lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -98,7 +96,6 @@ export default function Dashboard() {
     return tabFilter && searchFilter;
   });
 
-  // Estatísticas atualizadas
   const stats = {
     total: leads.filter(lead => !lead.contatado).length,
     contatados: leads.filter(lead => lead.contatado).length,
@@ -127,27 +124,11 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#D9D9D9]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#084040]"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#D9D9D9]">
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-          <div className="text-red-500 mb-4">Erro: {error}</div>
-          <button 
-            onClick={() => window.location.reload()}
-            className="bg-[#084040] text-white px-4 py-2 rounded hover:bg-[#0D0D0D] transition"
-          >
-            Tentar Novamente
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorState error={error} />;
   }
 
   return (
@@ -170,22 +151,11 @@ export default function Dashboard() {
             setCurrentPage={setCurrentPage} 
           />
           
-          {/* Barra de Pesquisa */}
-          <div className="relative mt-4 md:mt-0 w-full md:w-auto">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiSearch className="text-[#3A403F]" />
-            </div>
-            <input
-              type="text"
-              placeholder="Buscar por nome, email ou telefone..."
-              className="pl-10 pr-20 py-2 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition w-full"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1); // Resetar para a primeira página ao buscar
-              }}
-            />
-          </div>
+          <SearchBar 
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            setCurrentPage={setCurrentPage}
+          />
         </div>
 
         <div className="overflow-x-auto">
@@ -204,24 +174,14 @@ export default function Dashboard() {
             totalPages={totalPages}
           />
         ) : (
-          <div className="p-8 text-center text-[#3A403F]">
-            <p className="text-lg">Nenhum lead encontrado</p>
-            {searchTerm && (
-              <button 
-                onClick={() => setSearchTerm('')}
-                className="mt-2 text-[#084040] hover:underline"
-              >
-                Limpar busca
-              </button>
-            )}
-          </div>
+          <EmptyState 
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
         )}
       </main>
 
-      <footer className="mt-6 text-center text-sm text-[#3A403F]">
-        <p>© {new Date().getFullYear()} N&H Associados - Painel do Corretor</p>
-        <p className="text-xs text-[#A1A6A2] mt-1">Versão 1.0.2</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,164 +1,225 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-// Função de Inserção de Lead (POST)
+/**
+ * POST - Cria um novo lead e distribui para o corretor com menos leads
+ */
 export async function POST(req: Request) {
   try {
-    const { nome, idade, telefone, email, preferencia_contato, cnpj, plano_saude, formacao_academica } =
-      await req.json();
+    const { nome, idade, telefone, email, preferencia_contato, cnpj, plano_saude, formacao_academica } = await req.json();
 
-    // Verifica quantos leads cada corretor tem
-    const { data: corretoresData, error: corretoresError } = await supabase
+    // 1. Busca corretor com menos leads (apenas IDs 2 e 3)
+    const { data: corretores, error: corretorError } = await supabase
       .from("corretores")
       .select("id, lead_count")
-      .in("id", [2, 3]) // Somente os corretores com id 2 e 3
-      .order("lead_count", { ascending: true }); // Ordena para pegar o corretor com menos leads
+      .in("id", [2, 3])
+      .order("lead_count", { ascending: true });
 
-    if (corretoresError) {
-      return NextResponse.json({ error: corretoresError.message }, { status: 400 });
+    if (corretorError || !corretores || corretores.length === 0) {
+      console.error("Erro ao buscar corretores:", corretorError);
+      return NextResponse.json(
+        { error: "Erro ao buscar corretores disponíveis" },
+        { status: 400 }
+      );
     }
 
-    if (!corretoresData || corretoresData.length !== 2) {
-      return NextResponse.json({ error: "Corretor não encontrado" }, { status: 400 });
-    }
+    const corretorId = corretores[0].id;
 
-    // Verificar a alternância correta: o lead vai para o corretor com menos leads
-    const corretorComMenosLeads = corretoresData[0].id;
-    const corretorComMaisLeads = corretoresData[1].id;
-
-    // Converte os campos booleanos para true/false
-    const booleanValues = {
-      cnpj: cnpj === "Sim",
-      plano_saude: plano_saude === "Sim",
-      formacao_academica: formacao_academica === "Sim",
-    };
-
-    // LOG: Verifica os dados que serão inseridos
-    console.log("🚀 Dados recebidos para inserção:", {
+    // 2. Prepara dados do lead
+    const leadData = {
       nome,
       idade,
       telefone,
       email,
       preferencia_contato,
-      booleanValues,
-      corretorComMenosLeads,
-    });
+      cnpj: cnpj === "Sim",
+      plano_saude: plano_saude === "Sim",
+      formacao_academica: formacao_academica === "Sim",
+      corretor_id: corretorId,
+      contatado: false,
+      created_at: new Date().toISOString()
+    };
 
-    // Insere o lead na tabela lead_duplicate com o corretor_id alternado
-    const { data, error } = await supabase
+    // 3. Insere o novo lead
+    const { data: newLead, error: leadError } = await supabase
       .from("lead_duplicate")
-      .insert([{
-        nome,
-        idade,
-        telefone,
-        email,
-        preferencia_contato,
-        cnpj: booleanValues.cnpj,
-        plano_saude: booleanValues.plano_saude,
-        formacao_academica: booleanValues.formacao_academica,
-        corretor_id: corretorComMenosLeads, // Atribui ao corretor com menos leads
-      }])
-      .select(); // Retorna os dados inseridos
+      .insert(leadData)
+      .select()
+      .single();
 
-    // LOG: Verifica a resposta do Supabase
-    console.log("✅ Resposta do Supabase:", { data, error });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (leadError) {
+      console.error("Erro ao inserir lead:", leadError);
+      return NextResponse.json(
+        { error: "Erro ao cadastrar lead" },
+        { status: 400 }
+      );
     }
 
-    // Após a inserção, atualiza o contador de leads do corretor que recebeu o lead
-    await supabase
+    // 4. Atualiza contador do corretor
+    const { error: updateError } = await supabase
       .from("corretores")
-      .update({ lead_count: corretoresData[0].lead_count + 1 })
-      .eq("id", corretorComMenosLeads);
+      .update({ lead_count: corretores[0].lead_count + 1 })
+      .eq("id", corretorId);
 
-    // Alterna para o outro corretor na próxima inserção, garantindo alternância justa
-    await supabase
-      .from("corretores")
-      .update({ lead_count: corretoresData[1].lead_count + 1 })
-      .eq("id", corretorComMaisLeads);
+    if (updateError) {
+      console.error("Erro ao atualizar contador:", updateError);
+      // Não retorna erro aqui para não prejudicar a experiência do usuário
+    }
 
-    return NextResponse.json({ message: "Cadastro realizado com sucesso!", data }, { status: 201 });
+    return NextResponse.json(
+      { message: "Lead cadastrado com sucesso!", data: newLead },
+      { status: 201 }
+    );
+
   } catch (error) {
-    console.error("❌ Erro no POST:", error);
-    return NextResponse.json({ error: "Erro ao cadastrar" }, { status: 500 });
+    console.error("Erro interno no servidor:", error);
+    return NextResponse.json(
+      { error: "Ocorreu um erro interno no servidor" },
+      { status: 500 }
+    );
   }
 }
 
-// Função de Consulta de Leads (GET)
+/**
+ * GET - Busca leads do corretor autenticado
+ */
 export async function GET() {
   try {
-    const { data: userResponse } = await supabase.auth.getUser();
-    const corretor_id = userResponse?.user?.id;
+    // 1. Verifica autenticação
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    if (!corretor_id) {
-      return NextResponse.json({ error: "Corretor não autenticado" }, { status: 401 });
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Autenticação necessária" },
+        { status: 401 }
+      );
     }
 
-    // Consultando os leads do corretor logado
-    const { data, error } = await supabase.from("lead_duplicate").select("*").eq("corretor_id", corretor_id);
+    // 2. Busca leads do corretor
+    const { data: leads, error: leadsError } = await supabase
+      .from("lead_duplicate")
+      .select("*")
+      .eq("corretor_id", user.id)
+      .order("created_at", { ascending: false });
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (leadsError) {
+      console.error("Erro ao buscar leads:", leadsError);
+      return NextResponse.json(
+        { error: "Erro ao buscar leads" },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(leads || []);
+
   } catch (error) {
-    console.error("❌ Erro no GET:", error);
-    return NextResponse.json({ error: "Erro ao buscar leads" }, { status: 500 });
+    console.error("Erro interno no servidor:", error);
+    return NextResponse.json(
+      { error: "Ocorreu um erro interno no servidor" },
+      { status: 500 }
+    );
   }
 }
 
-// Função de Redistribuição de Leads Expirados (PATCH)
+/**
+ * PATCH - Redistribui leads não contatados há mais de 5 dias
+ */
 export async function PATCH() {
   try {
-    const prazoExpiracao = new Date();
-    prazoExpiracao.setHours(prazoExpiracao.getHours() - 48);
+    // 1. Calcula data limite (5 dias atrás)
+    const cincoDiasAtras = new Date();
+    cincoDiasAtras.setDate(cincoDiasAtras.getDate() - 5);
 
-    // Busca leads expirados
-    const { data: leadsExpirados, error: errorLeads } = await supabase
+    // 2. Busca leads expirados
+    const { data: leadsExpirados, error: leadsError } = await supabase
       .from("lead_duplicate")
       .select("id, corretor_id")
       .eq("contatado", false)
-      .lt("created_at", prazoExpiracao.toISOString());
+      .lt("created_at", cincoDiasAtras.toISOString());
 
-    if (errorLeads) {
-      return NextResponse.json({ error: errorLeads.message }, { status: 400 });
+    if (leadsError) {
+      console.error("Erro ao buscar leads expirados:", leadsError);
+      return NextResponse.json(
+        { error: "Erro ao buscar leads para redistribuição" },
+        { status: 400 }
+      );
     }
 
     if (!leadsExpirados || leadsExpirados.length === 0) {
-      return NextResponse.json({ message: "Nenhum lead expirado encontrado" }, { status: 200 });
+      return NextResponse.json(
+        { message: "Nenhum lead para redistribuir" },
+        { status: 200 }
+      );
     }
 
-    // Busca o corretor com menos leads
-    const { data: corretores, error: errorCorretores } = await supabase
+    // 3. Processa cada lead expirado
+    for (const lead of leadsExpirados) {
+      await redistribuirLead(lead.id, lead.corretor_id);
+    }
+
+    return NextResponse.json(
+      { 
+        message: "Redistribuição concluída",
+        leads_redistribuidos: leadsExpirados.length 
+      },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    console.error("Erro interno no servidor:", error);
+    return NextResponse.json(
+      { error: "Ocorreu um erro interno no servidor" },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Função auxiliar para redistribuir um lead específico
+ */
+async function redistribuirLead(leadId: string, corretorAtualId: string) {
+  try {
+    // 1. Busca novo corretor (excluindo o atual)
+    const { data: novoCorretor, error: corretorError } = await supabase
       .from("corretores")
       .select("id, lead_count")
-      .order("lead_count", { ascending: true });
+      .not("id", "eq", corretorAtualId)
+      .order("lead_count", { ascending: true })
+      .limit(1)
+      .single();
 
-    if (errorCorretores) {
-      return NextResponse.json({ error: errorCorretores.message }, { status: 400 });
+    if (corretorError || !novoCorretor) {
+      console.error("Erro ao buscar novo corretor:", corretorError);
+      return;
     }
 
-    if (!corretores || corretores.length === 0) {
-      return NextResponse.json({ error: "Nenhum corretor encontrado" }, { status: 400 });
+    // 2. Atualiza lead com novo corretor
+    const { error: updateLeadError } = await supabase
+      .from("lead_duplicate")
+      .update({ 
+        corretor_id: novoCorretor.id,
+        created_at: new Date().toISOString() // Reseta o timer
+      })
+      .eq("id", leadId);
+
+    if (updateLeadError) {
+      console.error("Erro ao atualizar lead:", updateLeadError);
+      return;
     }
 
-    // Redistribui os leads expirados
-    for (const lead of leadsExpirados) {
-      const novoCorretor = corretores.find(c => c.id !== lead.corretor_id);
-      if (!novoCorretor) continue;
+    // 3. Atualiza contador do novo corretor (+1)
+    await supabase
+      .from("corretores")
+      .update({ lead_count: novoCorretor.lead_count + 1 })
+      .eq("id", novoCorretor.id);
 
-      await supabase
-        .from("lead_duplicate")
-        .update({ corretor_id: novoCorretor.id, created_at: new Date().toISOString() })
-        .eq("id", lead.id);
-    }
+    // 4. Atualiza contador do corretor anterior (-1)
+    await supabase
+      .from("corretores")
+      .update({ lead_count: () => "lead_count - 1" })
+      .eq("id", corretorAtualId);
 
-    return NextResponse.json({ message: "Leads redistribuídos com sucesso" }, { status: 200 });
   } catch (error) {
-    console.error("❌ Erro no PATCH:", error);
-    return NextResponse.json({ error: "Erro ao redistribuir leads" }, { status: 500 });
+    console.error("Erro na redistribuição do lead:", error);
   }
 }
