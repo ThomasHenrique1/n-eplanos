@@ -9,6 +9,8 @@ import { supabase } from '@/lib/supabase';
 import CorretorHeader from '@/components/corretores/CorretorHeader';
 import { FiUser, FiBell, FiArrowRight, FiClock, FiMail, FiAlertTriangle } from 'react-icons/fi';
 import Image from 'next/image';
+import Footer from '@/components/Painel/Footer';
+import Reminder from '@/components/Painel/Reminder';
 
 export default function PainelPage() {
   const router = useRouter();
@@ -20,18 +22,21 @@ export default function PainelPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const corretorId = localStorage.getItem('corretorId');
-      if (!corretorId) {
-        router.push('/login');
-        return;
-      }
-
       try {
-        // Busca dados do corretor
+        // Verifica a sessão através de uma chamada API
+        const sessionCheck = await fetch('/api/auth/session');
+        const { corretor } = await sessionCheck.json();
+
+        if (!sessionCheck.ok || !corretor?.id) {
+          router.push('/login');
+          return;
+        }
+
+        // Busca dados do corretor usando o ID da sessão
         const { data: corretorData } = await supabase
           .from('corretores')
           .select('nome, last_login, email')
-          .eq('id', corretorId)
+          .eq('id', corretor.id)
           .single();
 
         if (corretorData) {
@@ -42,7 +47,7 @@ export default function PainelPage() {
           await supabase
             .from('corretores')
             .update({ last_login: new Date().toISOString() })
-            .eq('id', corretorId);
+            .eq('id', corretor.id);
 
           // Envia e-mail de resumo (apenas uma vez por dia)
           await sendDailySummary(corretorData.email);
@@ -53,26 +58,27 @@ export default function PainelPage() {
         fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
 
         const { data: leadsData } = await supabase
-          .from('lead_duplicate')
-          .select('*')
-          .eq('corretor_id', corretorId)
-          .eq('contatado', false)
-          .gte('created_at', fiveDaysAgo.toISOString())
-          .order('created_at', { ascending: false });
+        .from('lead_duplicate')
+        .select('*')
+        .eq('corretor_id', corretor.id)
+        .eq('contatado', false)
+        .gte('created_at', fiveDaysAgo.toISOString())
+        .order('created_at', { ascending: false });
 
-        if (leadsData) {
-          processNotifications(leadsData, corretorData?.last_login);
-          prepareSummaryData(leadsData);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-      } finally {
-        setLoading(false);
+      if (leadsData) {
+        processNotifications(leadsData, corretorData?.last_login);
+        prepareSummaryData(leadsData);
       }
-    };
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error);
+      router.push('/login');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [router]);
+  fetchData();
+}, [router]);
 
   const processNotifications = (leads: any[], lastLoginDate?: string) => {
     const now = new Date();
@@ -120,7 +126,7 @@ export default function PainelPage() {
 
   const sendDailySummary = async (email: string) => {
     // Verifica se já enviou e-mail hoje
-    const lastSent = localStorage.getItem('lastEmailSent');
+    const lastSent = sessionStorage.getItem('lastEmailSent');
     const today = new Date().toDateString();
     
     if (!lastSent || lastSent !== today) {
@@ -130,7 +136,7 @@ export default function PainelPage() {
         console.log(`Enviando resumo diário para ${email}`);
         
         // Marca como enviado hoje
-        localStorage.setItem('lastEmailSent', today);
+        sessionStorage.setItem('lastEmailSent', today);
       } catch (error) {
         console.error('Erro ao enviar e-mail:', error);
       }
@@ -289,55 +295,10 @@ export default function PainelPage() {
         </div>
 
         {/* Lembretes e Email */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiClock className="text-yellow-400" /> Lembretes Automáticos
-            </h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></span>
-                <span>Leads com mais de 3 dias recebem alerta amarelo</span>
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3"></span>
-                <span>Leads com 5 dias são removidos automaticamente</span>
-              </li>
-              <li className="flex items-start">
-                <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3"></span>
-                <span>Novos leads destacados em verde</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiMail className="text-blue-400" /> Resumo Diário por E-mail
-            </h3>
-            <p className="text-sm mb-4">
-              Você receberá um e-mail todas as manhãs com:
-            </p>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <span>•</span> Lista de leads não contatados
-              </li>
-              <li className="flex items-center gap-2">
-                <span>•</span> Lembretes de leads urgentes
-              </li>
-              <li className="flex items-center gap-2">
-                <span>•</span> Estatísticas de desempenho
-              </li>
-            </ul>
-          </div>
-        </div>
+          <Reminder />
 
         {/* Footer */}
-        <footer className="text-center text-sm text-[#A1A6A2] border-t border-white/10 pt-6">
-          <p>© {new Date().getFullYear()} N&H Associados - Painel do Corretor</p>
-          <p className="text-xs mt-2">
-            Último login: {lastLogin ? new Date(lastLogin).toLocaleString('pt-BR') : 'Primeiro acesso'}
-          </p>
-        </footer>
+        <Footer/>
       </div>
     </div>
   );

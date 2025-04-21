@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -24,51 +24,53 @@ export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    const fetchCorretor = async () => {
-      const corretorId = localStorage.getItem('corretorId');
-      if (!corretorId) {
-        router.push('/login');
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('corretores')
-        .select('nome')
-        .eq('id', corretorId)
-        .single();
-
-      if (error) {
-        console.error('Erro ao buscar corretor:', error);
-      } else {
-        setCorretorNome(data.nome);
-      }
-    };
-
-    const fetchLeads = async () => {
-      const corretorId = localStorage.getItem('corretorId');
-      if (!corretorId) return;
-
+    const fetchData = async () => {
       try {
-        const { data, error } = await supabase
+        // Verifica a sessão através de uma chamada API
+        const sessionCheck = await fetch('/api/auth/session');
+        const { corretor } = await sessionCheck.json();
+
+        if (!sessionCheck.ok || !corretor?.id) {
+          router.push('/login');
+          return;
+        }
+
+        // Busca dados do corretor
+        const { data: corretorData, error: corretorError } = await supabase
+          .from('corretores')
+          .select('nome')
+          .eq('id', corretor.id)
+          .single();
+
+        if (corretorError) {
+          console.error('Erro ao buscar corretor:', corretorError);
+          setError('Erro ao carregar dados do corretor');
+          return;
+        }
+
+        setCorretorNome(corretorData.nome);
+
+        // Busca leads
+        const { data: leadsData, error: leadsError } = await supabase
           .from('lead_duplicate')
           .select('*')
-          .eq('corretor_id', corretorId)
+          .eq('corretor_id', corretor.id)
           .order('created_at', { ascending: false });
 
-        if (error) {
-          setError(error.message);
+        if (leadsError) {
+          setError(leadsError.message);
         } else {
-          setLeads(data || []);
+          setLeads(leadsData || []);
         }
       } catch (error) {
-        setError('Erro ao buscar os leads');
+        setError('Erro ao buscar os dados');
+        console.error('Erro:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCorretor();
-    fetchLeads();
+    fetchData();
   }, [router]);
 
   // Filtro combinado (tab + busca)

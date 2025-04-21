@@ -31,7 +31,8 @@ export default function Login() {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem('corretorId', data.corretorId);
+        // REMOVIDO: localStorage.setItem('corretorId', data.corretorId);
+        // O cookie httpOnly já foi setado automaticamente pelo servidor
         router.push("/corretores/painel");
       } else {
         setErro(data.error || 'Credenciais inválidas. Por favor, tente novamente.');

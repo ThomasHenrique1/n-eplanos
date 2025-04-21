@@ -45,7 +45,7 @@ export default function CorretorHome() {
 
       {/* Footer */}
       <footer className="mt-12 text-center text-sm text-[#A1A6A2]">
-        <p>© {new Date().getFullYear()} Nome da Corretora. Todos os direitos reservados.</p>
+        <p>© {new Date().getFullYear()} N&H Associados. Todos os direitos reservados.</p>
         <p className="mt-1 text-xs">Versão 1.0.0</p>
       </footer>
     </div>
