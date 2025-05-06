@@ -15,7 +15,6 @@ import { SearchBar } from '@/components/Dashboard/SearchBar';
 import { EmptyState } from '@/components/Dashboard/EmptyState';
 import { Footer } from '@/components/Dashboard/Footer';
 
-
 export default function Dashboard() {
   const router = useRouter();
   const [leads, setLeads] = useState<any[]>([]);
@@ -132,10 +131,12 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#D9D9D9] p-4 md:p-8">
-      <CorretorHeader nome={corretorNome} />
+    <div className="min-h-screen bg-[#D9D9D9] p-3 sm:p-4 md:p-6 lg:p-8">
+      <div className="mb-4 sm:mb-6">
+        <CorretorHeader nome={corretorNome} />
+      </div>
       
-      <div className="text-white rounded-xl mb-6">
+      <div className="mb-4 sm:mb-6">
         <CorretorStats 
           total={stats.total} 
           contatados={stats.contatados} 
@@ -144,18 +145,20 @@ export default function Dashboard() {
       </div>
 
       <main className="bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border-b border-[#A1A6A2]/20">
+        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row justify-between items-start sm:items-center p-3 sm:p-4 border-b border-[#A1A6A2]/20">
           <Tabs 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
             setCurrentPage={setCurrentPage} 
           />
           
-          <SearchBar 
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            setCurrentPage={setCurrentPage}
-          />
+          <div className="w-full sm:w-auto">
+            <SearchBar 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -166,13 +169,15 @@ export default function Dashboard() {
         </div>
 
         {filteredLeads.length > 0 ? (
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
+          <div className="p-3 sm:p-4">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
+          </div>
         ) : (
           <EmptyState 
             searchTerm={searchTerm}
@@ -181,7 +186,9 @@ export default function Dashboard() {
         )}
       </main>
 
-      <Footer />
+      <div className="mt-4 sm:mt-6">
+        <Footer />
+      </div>
     </div>
   );
 }

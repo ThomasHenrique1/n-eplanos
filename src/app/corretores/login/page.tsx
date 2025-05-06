@@ -46,25 +46,25 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5] p-4">
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden border border-[#3A403F] flex">
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden border border-[#3A403F] flex flex-col md:flex-row">
         {/* Header com Logo - Área de Corretores (Lado Esquerdo) */}
-        <div className="w-1/2 bg-[#084040] flex flex-col justify-between p-8">
+        <div className="w-full md:w-1/2 bg-[#084040] flex flex-col justify-between p-6 md:p-8">
           <div>
-            <h1 className="text-2xl font-bold text-[#D9D9D9]">Área Exclusiva para Corretores</h1>
-            <div className="flex justify-center mt-6">
+            <h1 className="text-xl md:text-2xl font-bold text-[#D9D9D9] text-center md:text-left">Área Exclusiva para Corretores</h1>
+            <div className="flex justify-center mt-4 md:mt-6">
               <Image
                 src="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//android-chrome-512x512.png"
                 alt="Logo da Corretora - Área de Corretores"
-                width={150}
-                height={150}
-                className="object-contain"
+                width={100}
+                height={100}
+                className="object-contain w-24 h-24 md:w-32 md:h-32"
               />
             </div>
-            <p className="text-[#A1A6A2] mt-4 text-center">Acesso restrito ao sistema interno</p>
+            <p className="text-[#A1A6A2] mt-3 md:mt-4 text-center text-sm md:text-base">Acesso restrito ao sistema interno</p>
           </div>
           
           {/* Rodapé - Área de Corretores */}
-          <div className="text-center">
+          <div className="text-center mt-4 md:mt-0">
             <p className="text-xs text-[#ffffff]">
               © {new Date().getFullYear()} Área Restrita - N&H Associados. Uso exclusivo para corretores.
             </p>
@@ -75,21 +75,21 @@ export default function Login() {
         </div>
 
         {/* Formulário (Lado Direito) */}
-        <div className="w-1/2 p-8 flex flex-col justify-center">
+        <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
           <form onSubmit={handleLogin}>
             {erro && (
-              <div className="mb-6 p-3 bg-red-100 border-l-4 border-red-500 text-red-700 rounded">
+              <div className="mb-4 md:mb-6 p-3 bg-red-100 border-l-4 border-red-500 text-red-700 rounded text-sm md:text-base">
                 <p>{erro}</p>
               </div>
             )}
 
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-[#084040dc] font-medium mb-2">
+            <div className="mb-4 md:mb-6">
+              <label htmlFor="email" className="block text-[#084040dc] font-medium mb-2 text-sm md:text-base">
                 E-mail Profissional
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="text-[#3A403F]" />
+                  <FiMail className="text-[#3A403F] text-sm md:text-base" />
                 </div>
                 <input
                   id="email"
@@ -97,19 +97,19 @@ export default function Login() {
                   placeholder="seu@email.com.br"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition"
+                  className="w-full pl-9 md:pl-10 pr-4 py-2 md:py-3 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition text-sm md:text-base"
                   required
                 />
               </div>
             </div>
 
-            <div className="mb-8">
-              <label htmlFor="senha" className="block text-[#084040dc] font-medium mb-2">
+            <div className="mb-6 md:mb-8">
+              <label htmlFor="senha" className="block text-[#084040dc] font-medium mb-2 text-sm md:text-base">
                 Senha
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="text-[#3A403F]" />
+                  <FiLock className="text-[#3A403F] text-sm md:text-base" />
                 </div>
                 <input
                   id="senha"
@@ -117,7 +117,7 @@ export default function Login() {
                   placeholder="Digite sua senha"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition"
+                  className="w-full pl-9 md:pl-10 pr-10 md:pr-12 py-2 md:py-3 border border-[#A1A6A2] rounded-lg focus:ring-2 focus:ring-[#084040] focus:border-[#084040] outline-none transition text-sm md:text-base"
                   required
                 />
                 <button
@@ -125,11 +125,11 @@ export default function Login() {
                   onClick={() => setMostrarSenha(!mostrarSenha)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#3A403F] hover:text-[#084040]"
                 >
-                  {mostrarSenha ? <FiEyeOff /> : <FiEye />}
+                  {mostrarSenha ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
-              <div className="mt-2 text-right">
-                <a href="/recuperar-senha" className="text-sm text-[#084040] hover:text-[#0D0D0D]">
+              <div className="mt-1 md:mt-2 text-right">
+                <a href="/recuperar-senha" className="text-xs md:text-sm text-[#084040] hover:text-[#0D0D0D]">
                   Esqueceu sua senha?
                 </a>
               </div>
@@ -138,11 +138,11 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 px-4 bg-[#084040] hover:bg-[#355e5e] text-[#D9D9D9] font-medium rounded-lg transition duration-200 flex items-center justify-center ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
+              className={`w-full py-2 md:py-3 px-4 bg-[#084040] hover:bg-[#355e5e] text-[#D9D9D9] font-medium rounded-lg transition duration-200 flex items-center justify-center text-sm md:text-base ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-4 w-4 md:h-5 md:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -150,13 +150,13 @@ export default function Login() {
                 </>
               ) : (
                 <>
-                  <FiLogIn className="mr-2" />
+                  <FiLogIn className="mr-2" size={16} />
                   Acessar Painel
                 </>
               )}
             </button>
 
-            <div className="mt-6 text-center text-sm text-[#3A403F]">
+            <div className="mt-4 md:mt-6 text-center text-xs md:text-sm text-[#3A403F]">
               <p>Problemas com acesso? <a href="/suporte-corretores" className="text-[#084040] hover:text-[#0D0D0D]">Contate o suporte técnico</a></p>
             </div>
           </form>
