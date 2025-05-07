@@ -3,6 +3,7 @@ import Image, { StaticImageData } from "next/image";
 
 interface HeroSectionProps {
   title: string;
+  subtitle?: string;
   description: string;
   image?: string | StaticImageData; // URL da imagem de fundo (opcional)
   ctaText?: string; // Texto do botão de call-to-action (opcional)
@@ -11,6 +12,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({
   title,
+  subtitle,
   description,
   image,
 }: HeroSectionProps) {
@@ -35,11 +37,8 @@ export default function HeroSection({
       {/* Conteúdo do Hero */}
         <div className="container mx-auto px-4 relative z-20">
           <h1 className="text-4xl font-bold mb-6 text-white">{title}</h1>
+          <h2 className="text-2xl font-bold mb-6 text-white">{subtitle}</h2>
           <p className="text-lg mb-8 font-semibold text-white">{description}</p>
-
-
-       
-       
       </div>
     </section>
   );

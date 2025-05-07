@@ -1,52 +1,80 @@
 import Link from "next/link";
+import { FaUser, FaUsers, FaBuilding, FaHandshake } from "react-icons/fa";
 
 export default function PlanLinks() {
+  const plans = [
+    {
+      title: "Plano Individual",
+      description: "Cobertura personalizada para você, com as melhores opções de hospitais e clínicas",
+      href: "/plano-individual",
+      icon: <FaUser className="text-3xl text-[#A1C7D6]" />,
+      color: "bg-[#F0F9F9]"
+    },
+    {
+      title: "Plano Familiar",
+      description: "Proteção completa para sua família com condições especiais e ampla rede credenciada",
+      href: "/plano-familiar",
+      icon: <FaUsers className="text-3xl text-[#A1C7D6]" />,
+      color: "bg-[#F0F9F9]"
+    },
+    {
+      title: "Plano Empresarial",
+      description: "Soluções corporativas sob medida para empresas de todos os portes",
+      href: "/plano-empresarial",
+      icon: <FaBuilding className="text-3xl text-[#A1C7D6]" />,
+      color: "bg-[#F0F9F9]"
+    },
+    {
+      title: "Plano por Adesão",
+      description: "Benefícios exclusivos para associados de entidades de classe e sindicatos",
+      href: "/plano-adesao",
+      icon: <FaHandshake className="text-3xl text-[#A1C7D6]" />,
+      color: "bg-[#F0F9F9]"
+    }
+  ];
+
   return (
-    <div className="my-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Link
-        href="/plano-individual"
-        className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-[#E0E0E0]"
-      >
-        <h2 className="text-2xl font-bold text-[#084040] mb-4">
-          Plano Individual
-        </h2>
-        <p className="text-gray-600">
-          Saiba mais sobre o Plano Individual
-        </p>
-      </Link>
-      <Link
-        href="/plano-familiar"
-        className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-[#E0E0E0]"
-      >
-        <h2 className="text-2xl font-bold text-[#084040] mb-4">
-          Plano Familiar
-        </h2>
-        <p className="text-gray-600">
-          Saiba mais sobre o Plano Familiar
-        </p>
-      </Link>
-      <Link
-        href="/plano-empresarial"
-        className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-[#E0E0E0]"
-      >
-        <h2 className="text-2xl font-bold text-[#084040] mb-4">
-          Plano Empresarial
-        </h2>
-        <p className="text-gray-600">
-          Saiba mais sobre o Plano Empresarial
-        </p>
-      </Link>
-      <Link
-        href="/plano-adesao"
-        className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-[#E0E0E0]"
-      >
-        <h2 className="text-2xl font-bold text-[#084040] mb-4">
-          Plano por Adesão
-        </h2>
-        <p className="text-gray-600">
-          Saiba mais sobre o Plano por Adesão
-        </p>
-      </Link>
+    <div className="my-16 max-w-6xl mx-auto px-4">
+      <h2 className="text-3xl font-bold text-[#084040] mb-2 text-center">
+        Nossos Planos de Saúde
+      </h2>
+      <p className="text-lg text-[#0a4d4d] mb-12 text-center max-w-2xl mx-auto">
+        Encontre a cobertura perfeita para suas necessidades
+      </p>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {plans.map((plan, index) => (
+          <Link
+            key={index}
+            href={plan.href}
+            className={`${plan.color} p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-[#E0F2F2] group overflow-hidden relative`}
+          >
+            {/* Efeito de hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#084040]/10 to-[#0a4d4d]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div className="relative z-10">
+              <div className="flex justify-center mb-5">
+                <div className="bg-white p-4 rounded-full shadow-sm">
+                  {plan.icon}
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-[#084040] mb-3 text-center">
+                {plan.title}
+              </h3>
+              <p className="text-[#0a4d4d] text-center mb-6">
+                {plan.description}
+              </p>
+              
+              <div className="text-center">
+                <span className="inline-block px-4 py-2 bg-[#A1C7D6] text-[#084040] rounded-full text-sm font-semibold group-hover:bg-[#84b4c7] transition-colors">
+                  Saiba mais
+                </span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

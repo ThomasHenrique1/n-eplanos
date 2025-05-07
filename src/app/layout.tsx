@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header";
 import "./globals.css";
 import Footer from "@/components/Footer/Footer";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton/FloatingWhatsAppButton";
 
 export const metadata = {
   title: "N&H Associados",
@@ -26,6 +27,7 @@ export default function RootLayout({
         {/* Conteúdo da página */}
         <main className="flex-1">
           {children}
+          <FloatingWhatsAppButton />
         </main>
 
         {/* Footer compartilhado em todas as páginas */}

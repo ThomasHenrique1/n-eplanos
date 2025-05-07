@@ -39,13 +39,18 @@ export default function Home() {
       <PlanLinks />
     
       {/* Seção de Imagem da logo do plano de saude */}
-      <Section 
-      title={"Planos de Saúde que Trabalhamos"}>
-        <p className="mb-6 text-gray-600">
-        Trabalhamos com as principais operadoras do mercado. Confira algumas delas:
-        </p>
-       <HealthPlansSection imageUrls={imageUrls} />
-     </Section>
+          <Section 
+            title={"Planos de Saúde que Trabalhamos"}
+          >
+            <div className=" text-justify mb-12">
+              <p className="text-lg text-[#0a4d4d]">
+                Trabalhamos com as principais operadoras do mercado para oferecer as melhores 
+                soluções em saúde para você e sua família. Confira algumas delas:
+              </p>
+            </div>
+            
+            <HealthPlansSection imageUrls={imageUrls} />
+          </Section>
 
       {/* Opções e Informações de planos */}
       <Section title="Contratação de Planos de Saúde: Entenda Suas Opções">
