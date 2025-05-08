@@ -2,128 +2,171 @@ import React from "react";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "@/components/Section/Section";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
-import { FaCheck, FaEnvelope } from "react-icons/fa";
+import { FaShieldAlt, FaUserLock, FaEnvelope, FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5]">
-      {/* HeroSection */}
+    <div className="bg-[#F8FAFA]">
+      {/* HeroSection atualizado */}
       <HeroSection
         title="Política de Privacidade"
-        description="Entenda como protegemos e utilizamos suas informações."
-        image="/logo.jpg"
-        ctaText="Entre em Contato"
-        ctaLink="/formulario"
+        subtitle="Transparência e segurança no tratamento de seus dados"
+        description="Saiba como protegemos e utilizamos suas informações pessoais"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//privacy.jpg" // Sugiro uma imagem temática
       />
 
-      {/* ContentContainer para organizar o conteúdo */}
       <ContentContainer>
-        {/* Seção 1: Quais Dados Coletamos? */}
-        <Section title="1. Quais Dados Coletamos?">
-          <p className="text-gray-700 mb-6 leading-relaxed text-lg">
-            Coletamos apenas os dados essenciais para oferecer um serviço personalizado:
+        {/* Seção 1: Dados Coletados */}
+        <Section title="1. Dados Coletados" className="bg-white rounded-xl shadow-sm p-8">
+          <p className="text-[#0a4d4d] mb-6 text-lg">
+            Coletamos apenas informações essenciais para oferecer um serviço personalizado de consultoria em planos de saúde:
           </p>
-          <ul className="space-y-3">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="border-l-4 border-[#A1C7D6] pl-4">
+              <h3 className="font-semibold text-[#084040] mb-2">Informações Pessoais</h3>
+              <ul className="space-y-2 text-[#0a4d4d]">
+                {['Nome completo', 'Idade', 'Telefone', 'Preferência de contato'].map((item, i) => (
+                  <li key={i} className="flex items-start">
+                    <FaChevronRight className="text-[#A1C7D6] text-xs mt-1 mr-2 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="border-l-4 border-[#A1C7D6] pl-4">
+              <h3 className="font-semibold text-[#084040] mb-2">Informações Profissionais</h3>
+              <ul className="space-y-2 text-[#0a4d4d]">
+                {['Possui plano de saúde', 'Possui CNPJ', 'Formação acadêmica'].map((item, i) => (
+                  <li key={i} className="flex items-start">
+                    <FaChevronRight className="text-[#A1C7D6] text-xs mt-1 mr-2 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Section>
+
+        {/* Divisor visual */}
+        <div className="my-8 flex justify-center">
+          <div className="h-1 w-24 bg-[#A1C7D6] rounded-full"></div>
+        </div>
+
+        {/* Seção 2: Finalidade */}
+        <Section title="2. Finalidade dos Dados" className="bg-white rounded-xl shadow-sm p-8">
+          <div className="flex items-start mb-6">
+            <FaShieldAlt className="text-[#0a4d4d] text-2xl mr-4 mt-1 flex-shrink-0" />
+            <p className="text-[#0a4d4d]">
+              Seus dados são utilizados exclusivamente para:
+            </p>
+          </div>
+          <ul className="space-y-4 pl-12">
             {[
-              "Nome completo",
-              "Idade",
-              "Telefone",
-              "Preferência de contato",
-              "Possui plano de saúde (sim/não)",
-              "Possui CNPJ (sim/não)",
-              "Possui formação acadêmica (sim/não)",
-            ].map((item, index) => (
-              <li key={index} className="flex items-start">
-                <FaCheck className="text-green-600 mr-2 flex-shrink-0" />
-                <span className="text-gray-700 ">{item}</span>
+              "Fornecer informações personalizadas sobre planos de saúde",
+              "Realizar simulações e propostas adequadas ao seu perfil",
+              "Melhorar continuamente nossos serviços",
+              "Atender obrigações legais e regulatórias"
+            ].map((item, i) => (
+              <li key={i} className="flex items-start">
+                <div className="bg-[#EFF9F9] p-1 rounded-full mr-3">
+                  <div className="w-2 h-2 bg-[#084040] rounded-full"></div>
+                </div>
+                <span className="text-[#0a4d4d]">{item}</span>
               </li>
             ))}
           </ul>
+          <div className="mt-6 p-4 bg-[#EFF9F9] rounded-lg">
+            <p className="text-[#084040] font-medium">
+              Nenhum dado será utilizado para marketing sem sua autorização explícita.
+            </p>
+          </div>
         </Section>
 
-        {/* Divisor */}
-        <div className="border-b border-gray-200 my-8"></div>
+        {/* Seção 3: Compartilhamento */}
+        <Section title="3. Compartilhamento de Dados" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+          <div className="flex items-start">
+            <FaUserLock className="text-[#0a4d4d] text-2xl mr-4 mt-1 flex-shrink-0" />
+            <div>
+              <p className="text-[#0a4d4d] mb-4">
+                Seus dados <strong>não são comercializados</strong> e só são compartilhados quando necessário para:
+              </p>
+              <ul className="space-y-2 pl-2">
+                {[
+                  "Gerar propostas com operadoras de saúde",
+                  "Atender exigências legais",
+                  "Processar contratações de planos"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-baseline">
+                    <span className="text-[#A1C7D6] mr-2">▸</span>
+                    <span className="text-[#0a4d4d]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Section>
 
-        {/* Seção 2: Para Que Usamos Seus Dados? */}
-        <Section title="2. Para Que Usamos Seus Dados?">
-          <p className="text-gray-700 mb-6 leading-relaxed text-lg">
-            Usamos seus dados apenas para:
+        {/* Seção 4: Proteção */}
+        <Section title="4. Segurança dos Dados" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex-1">
+              <h3 className="font-semibold text-[#084040] mb-3">Medidas de Proteção</h3>
+              <p className="text-[#0a4d4d]">
+                Utilizamos criptografia, firewalls e protocolos de segurança avançados para proteger todas as informações coletadas.
+              </p>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-[#084040] mb-3">Acesso Restrito</h3>
+              <p className="text-[#0a4d4d]">
+                Somos pessoal autorizado tem acesso aos dados, mediante autenticação rigorosa.
+              </p>
+            </div>
+          </div>
+        </Section>
+
+        {/* Seção 5: Direitos */}
+        <Section title="5. Seus Direitos" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+          <p className="text-[#0a4d4d] mb-6">
+            Conforme a Lei Geral de Proteção de Dados (LGPD), você possui direitos sobre seus dados pessoais:
           </p>
-          <ul className="space-y-3">
+          <div className="grid md:grid-cols-2 gap-6">
             {[
-              "Entrar em contato e fornecer informações sobre planos de saúde.",
-              "Personalizar as recomendações de acordo com seu perfil.",
-              "Melhorar nossos serviços e atendimento.",
-              "Atender exigências legais e regulatórias.",
-            ].map((item, index) => (
-              <li key={index} className="flex items-start">
-                <FaCheck className="text-green-600 mr-2 flex-shrink-0" />
-                <span className="text-gray-700">{item}</span>
-              </li>
+              { title: "Acesso", desc: "Solicitar cópia dos dados que possuímos sobre você" },
+              { title: "Correção", desc: "Atualizar informações incompletas ou desatualizadas" },
+              { title: "Exclusão", desc: "Solicitar a eliminação de seus dados em determinadas situações" },
+              { title: "Portabilidade", desc: "Receber seus dados em formato estruturado" }
+            ].map((item, i) => (
+              <div key={i} className="border-l-2 border-[#A1C7D6] pl-4">
+                <h4 className="font-semibold text-[#084040]">{item.title}</h4>
+                <p className="text-[#0a4d4d] text-sm mt-1">{item.desc}</p>
+              </div>
             ))}
-          </ul>
-          <p className="text-gray-700 mt-6 font-semibold leading-relaxed text-lg">
-            Nenhum dado coletado será utilizado para fins de publicidade sem seu consentimento.
-          </p>
+          </div>
         </Section>
 
-        {/* Divisor */}
-        <div className="border-b border-gray-200 my-8"></div>
-
-        {/* Seção 3: Com Quem Compartilhamos Seus Dados? */}
-        <Section title="3. Com Quem Compartilhamos Seus Dados?">
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Os dados coletados <strong>não serão vendidos ou divulgados indevidamente</strong>.
-            O compartilhamento ocorre apenas com
-            <strong> administradoras e operadoras de planos de saúde</strong>,
-            quando necessário para gerar propostas e simulações.
+        {/* CTA Final */}
+        <div className="mt-16 text-center bg-[#084040] rounded-xl p-8 text-white">
+          <h3 className="text-2xl font-bold mb-4">Dúvidas ou Solicitações?</h3>
+          <p className="mb-6 max-w-2xl mx-auto">
+            Entre em contato com nosso Encarregado de Proteção de Dados:
           </p>
-        </Section>
-
-        {/* Divisor */}
-        <div className="border-b border-gray-200 my-8"></div>
-
-        {/* Seção 4: Como Protegemos Seus Dados? */}
-        <Section title="4. Como Protegemos Seus Dados?">
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Todos os dados são armazenados em um ambiente seguro e restrito, com
-            criptografia e protocolos modernos para evitar acessos não autorizados.
-          </p>
-        </Section>
-
-        {/* Divisor */}
-        <div className="border-b border-gray-200 my-8"></div>
-
-        {/* Seção 5: Quais São Seus Direitos? */}
-        <Section title="5. Quais São Seus Direitos?">
-          <p className="text-gray-700 mb-6 leading-relaxed text-lg">Você tem o direito de:</p>
-          <ul className="space-y-3">
-            {[
-              "Solicitar acesso, correção ou exclusão de seus dados.",
-              "Revogar seu consentimento a qualquer momento.",
-              "Obter informações sobre como seus dados são utilizados.",
-            ].map((item, index) => (
-              <li key={index} className="flex items-start">
-                <FaCheck className="text-green-600 mr-2 flex-shrink-0" />
-                <span className="text-gray-700">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-gray-700 mt-6 leading-relaxed text-lg">
-            Tem dúvidas ou precisa de ajuda? Entre em contato conosco pelo e-mail:{" "}
-            <strong>seuemail@dominio.com</strong>.
-          </p>
-        </Section>
-
-        {/* Botão de Contato */}
-        <div className="text-center mt-12">
-          <a
-            href="mailto:seuemail@dominio.com"
-            className="bg-[#084040] text-white py-3 px-8 rounded-lg text-lg hover:bg-[#0a5757] transition-colors flex items-center justify-center space-x-2"
-          >
-            <FaEnvelope className="text-xl" />
-            <span>Enviar E-mail</span>
-          </a>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="mailto:privacidade@seudominio.com"
+              className="bg-white text-[#084040] hover:bg-[#EFF9F9] py-3 px-6 rounded-lg font-medium inline-flex items-center justify-center"
+            >
+              <FaEnvelope className="mr-2" />
+              Enviar E-mail
+            </a>
+            <Link
+              href="/formulario"
+              className="border-2 border-white text-white hover:bg-white hover:text-[#084040] py-3 px-6 rounded-lg font-medium inline-flex items-center justify-center"
+            >
+              <FaChevronRight className="mr-2" />
+              Formulário de Contato
+            </Link>
+          </div>
         </div>
       </ContentContainer>
     </div>
