@@ -249,10 +249,6 @@ export default function LeadForm() {
             : errorMessage || "Ocorreu um erro ao processar sua solicitação."
           }
           type={isSuccessModalOpen ? 'success' : 'error'}
-          iconUrl={isSuccessModalOpen 
-            ? 'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-sucesso.png'
-            : 'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//icon-erro.png'
-          }
         />
       </div>
     </div>
