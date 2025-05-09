@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
 const HowItWorksSection = () => {
   // Lista de itens do checklist
@@ -9,23 +10,29 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <div className="text-gray-600 leading-relaxed">
+    <div className="bg-white rounded-xl p-8 shadow-sm border border-[#E0F2F2]">
       {/* Descrição */}
-      <p className="text-gray-700 leading-relaxed mb-8 text-lg text-justify">
-        O Plano de Saúde Empresarial é uma solução coletiva contratada por empresas para oferecer
-        assistência médica de qualidade aos seus colaboradores. Dependendo da operadora, também pode
-        incluir dependentes e prestadores de serviço vinculados à empresa.
-      </p>
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-[#084040] mb-4">Funcionamento do Plano Empresarial</h3>
+        <p className="text-[#0a4d4d] leading-relaxed">
+          O Plano de Saúde Empresarial é uma solução coletiva contratada por empresas para oferecer
+          assistência médica de qualidade aos seus colaboradores. Dependendo da operadora, também pode
+          incluir dependentes e prestadores de serviço vinculados à empresa.
+        </p>
+      </div>
 
       {/* Checklist */}
-      <ul className="mt-6 space-y-6">
-        {checklistItems.map((item, index) => (
-          <li key={index} className="flex items-start">
-            <span className="text-[#084040] text-2xl mr-3">•</span> {/* Bullet personalizado */}
-            <span className="text-gray-700 leading-relaxed text-lg">{item}</span>
-          </li>
-        ))}
-      </ul>
+      <div className="bg-[#EFF9F9] rounded-lg p-6 border border-[#D0E8E8]">
+        <h4 className="font-semibold text-[#084040] mb-4 text-lg">Requisitos para Contratação</h4>
+        <ul className="space-y-4">
+          {checklistItems.map((item, index) => (
+            <li key={index} className="flex items-start">
+              <FaCheckCircle className="text-[#0a4d4d] text-xl mt-1 mr-3 flex-shrink-0" />
+              <span className="text-[#0a4d4d]">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

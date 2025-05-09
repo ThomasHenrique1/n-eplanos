@@ -1,124 +1,240 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from "next/link";
-import Section from "../../components/Section/Section";
-import CardList from "@/components/CardList/CardList"; // Importe o componente
+import Section from "@/components/Section/Section";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
 import HowItWorksSection from "@/components/HowItWorksSection/HowItWorksSection";
+import { FaBuilding, FaUsers, FaChartLine, FaHandshake, FaFileAlt, FaPhoneAlt, FaCheck, FaHospital } from "react-icons/fa";
 
 export default function PlanoEmpresarial() {
   const vantagens = [
     {
-      title: "Menor custo",
-      description:
-        "Tarifas reduzidas em comparação com planos individuais, oferecendo mais acessibilidade para todos.",
+      title: "Economia Empresarial",
+      description: "Tarifas reduzidas em comparação com planos individuais",
+      icon: <FaChartLine className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Redução da carência",
-      description:
-        "Empresas com mais de 30 vidas podem ter isenção ou redução do prazo de carência.",
+      title: "Carência Reduzida",
+      description: "Isenção ou redução para empresas com +30 vidas",
+      icon: <FaCheck className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Inclusão de dependentes",
-      description:
-        "Facilidade para incluir cônjuges, filhos e até sócios no plano.",
+      title: "Dependentes Inclusos",
+      description: "Cônjuges, filhos e sócios podem ser incluídos",
+      icon: <FaUsers className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Ampla rede de atendimento",
-      description:
-        "Hospitais e clínicas renomadas à disposição para seus colaboradores.",
+      title: "Rede Ampliada",
+      description: "Hospitais e clínicas renomadas em todo país",
+      icon: <FaHospital className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Aumento da produtividade",
-      description:
-        "Funcionários saudáveis têm menos faltas e um desempenho mais eficiente.",
+      title: "Produtividade",
+      description: "Colaboradores saudáveis = maior desempenho",
+      icon: <FaCheck className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Valorização da equipe",
-      description:
-        "Benefícios como plano de saúde ajudam a atrair e reter talentos.",
+      title: "Retenção de Talentos",
+      description: "Atrai e mantém os melhores profissionais",
+      icon: <FaCheck className="text-2xl text-[#0a4d4d]" />
     },
     {
-      title: "Coparticipação opcional",
-      description:
-        "Opção de dividir os custos com os colaboradores, aliviando o impacto financeiro para a empresa.",
-    },
+      title: "Coparticipação",
+      description: "Opção de dividir custos com colaboradores",
+      icon: <FaHandshake className="text-2xl text-[#0a4d4d]" />
+    }
   ];
 
   const etapasContratacao = [
     {
-      title: "1. Escolha a operadora e o plano",
-      description:
-        "Compare as opções de operadoras e planos que melhor atendem às necessidades da sua empresa.",
+      step: "1",
+      title: "Escolha o Plano",
+      description: "Selecione a operadora e cobertura ideal para sua empresa"
     },
     {
-      title: "2. Defina os beneficiários",
-      description:
-        "Informe o número de funcionários e dependentes que serão incluídos no plano.",
+      step: "2",
+      title: "Defina Beneficiários",
+      description: "Quantidade de colaboradores e dependentes"
     },
     {
-      title: "3. Solicite uma cotação",
-      description:
-        "Peça uma cotação detalhada com valores e condições para sua empresa.",
+      step: "3",
+      title: "Solicite Cotação",
+      description: "Receba valores personalizados para sua empresa"
     },
     {
-      title: "4. Envie a documentação",
-      description:
-        "Documentos da empresa e dos beneficiários são necessários para formalizar o contrato.",
+      step: "4",
+      title: "Envie Documentos",
+      description: "Contrato social e documentos dos beneficiários"
+    }
+  ];
+
+  const tamanhosEmpresa = [
+    {
+      title: "Pequenas Empresas",
+      range: "2-30 vidas",
+      benefits: ["Economia imediata", "Flexibilidade", "Rápida implementação"]
     },
-   ];
+    {
+      title: "Médias Empresas",
+      range: "31-100 vidas",
+      benefits: ["Redução de carência", "Condições especiais", "Gestão simplificada"]
+    },
+    {
+      title: "Grandes Empresas",
+      range: "101+ vidas",
+      benefits: ["Planos customizados", "Consultoria dedicada", "Benefícios exclusivos"]
+    }
+  ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F5F5] hyphens-auto">
-      {/* Banner Hero */}
-          <HeroSection
-             title="Plano de Saúde Empresarial"
-             description="Planos empresariais com benefícios para sua empresa e colaboradores."
-             image="/logo.jpg" // Imagem local
-             ctaText="Faça sua Cotação"
-             ctaLink="/formulario"
-           />
+    <div className="bg-[#F8FAFA]">
+      {/* Hero Section Atualizada */}
+      <HeroSection
+        title="Plano de Saúde Empresarial"
+        subtitle="Solução completa para a saúde dos seus colaboradores"
+        description="Benefícios corporativos com condições especiais para empresas de todos os portes"
+        image="/logo.jpg"
+        ctaText="Solicitar Cotação Empresarial"
+        ctaLink="/formulario?tipo=empresarial"
+      />
+
       <ContentContainer>
-      <div className="container mx-auto py-8 px-4 md:px-8">
-        {/* Seção 1: O que é o Plano Empresarial? */}
-        <Section title="O que é o Plano Empresarial?">
-          <p className="text-lg text-gray-700 mb-4">
-            O <strong>Plano de Saúde Empresarial</strong> é uma excelente opção
-            para empresas que desejam garantir assistência médica de qualidade
-            para seus colaboradores, melhorando o bem-estar e a produtividade no
-            ambiente de trabalho.
-          </p>
-          <p className="text-lg text-gray-700 mb-4">
-            Qualquer empresa, de pequeno ou grande porte, pode aderir ao plano.
-            Além dos funcionários, é possível incluir{" "}
-            <strong>sócios, cônjuges, filhos e prestadores de serviço</strong>,
-            dependendo do plano escolhido.
-          </p>
+        {/* Seção 1: O que é */}
+        <Section title="Solução Corporativa em Saúde" className="mt-16">
+          <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl font-bold text-[#084040] mb-4">Vantagens Competitivas para Sua Empresa</h3>
+                <p className="text-[#0a4d4d] mb-4 leading-relaxed">
+                  O <strong className="text-[#084040]">Plano de Saúde Empresarial</strong> oferece cobertura médica de qualidade para seus colaboradores, com condições diferenciadas que só são possíveis através de contratações coletivas.
+                </p>
+                <p className="text-[#0a4d4d] leading-relaxed">
+                  Ideal para empresas que valorizam o bem-estar de seus times e buscam vantagens fiscais e operacionais na gestão de benefícios.
+                </p>
+              </div>
+              <div className="bg-[#EFF9F9] rounded-lg p-6 border border-[#D0E8E8]">
+                <h4 className="font-semibold text-[#084040] mb-3">Quem pode contratar:</h4>
+                <ul className="space-y-2 text-[#0a4d4d]">
+                  <li className="flex items-start">
+                    <span className="bg-[#A1C7D6] text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">✓</span>
+                    <span>Empresas de qualquer porte (MEI a grandes corporações)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-[#A1C7D6] text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">✓</span>
+                    <span>Associações e cooperativas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-[#A1C7D6] text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">✓</span>
+                    <span>Profissionais liberais com CNPJ</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-[#A1C7D6] text-white rounded-full w-5 h-5 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">✓</span>
+                    <span>Startups em crescimento</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </Section>
 
-        <Section title="Como Funciona o Plano de Saúde Empresarial?">
-         <HowItWorksSection />
+        {/* Seção 2: Como funciona */}
+        <Section title="Como Funciona" className="mt-16">
+          <HowItWorksSection />
         </Section>
 
-        {/* Seção 2: Vantagens do Plano Empresarial */}
-        <Section title="Vantagens do Plano Empresarial">
-          <p className="text-lg text-gray-700 mb-6">
-            Um <strong>Plano de Saúde Empresarial</strong> traz benefícios tanto
-            para a empresa quanto para seus colaboradores. Confira algumas das
-            vantagens:
-          </p>
-          <CardList items={vantagens} /> {/* Use o componente aqui */}
+        {/* Seção 3: Para diferentes portes */}
+        <Section title="Soluções por Porte de Empresa" className="mt-16">
+          <div className="grid md:grid-cols-3 gap-6">
+            {tamanhosEmpresa.map((tamanho, index) => (
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-[#E0F2F2]">
+                <div className="flex justify-center mb-4">
+                  <div className="bg-[#EFF9F9] p-4 rounded-full">
+                    <FaBuilding className="text-2xl text-[#0a4d4d]" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold text-[#084040] mb-2 text-center">{tamanho.title}</h3>
+                <p className="text-[#0a4d4d] font-medium text-center mb-4">{tamanho.range}</p>
+                <ul className="space-y-2 text-[#0a4d4d]">
+                  {tamanho.benefits.map((benefit, i) => (
+                    <li key={i} className="flex items-start">
+                      <span className="text-[#A1C7D6] mr-2">•</span>
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </Section>
 
-        {/* Seção 3: Como Contratar */}
-        <Section title="Como Contratar?">
-          <p className="text-lg text-gray-700 mb-6">
-            A contratação do <strong>Plano de Saúde Empresarial</strong> é
-            rápida e prática. Siga o passo a passo abaixo:
-          </p>
-          <CardList items={etapasContratacao} columns={3} /> {/* Use o componente aqui */}
+        {/* Seção 4: Vantagens */}
+        <Section title="Vantagens para Sua Empresa" className="mt-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {vantagens.map((item, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-[#E0F2F2]">
+                <div className="flex justify-center mb-4">
+                  <div className="bg-[#EFF9F9] p-3 rounded-full">
+                    {item.icon}
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-[#084040] mb-2 text-center">{item.title}</h3>
+                <p className="text-[#0a4d4d] text-sm text-center">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </Section>
-      </div>
+
+        {/* Seção 5: Como contratar */}
+        <Section title="Contratação em 4 Passos" className="mt-16">
+          <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="grid md:grid-cols-2 gap-8">
+              {etapasContratacao.map((etapa, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="bg-[#084040] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0 font-bold">
+                    {etapa.step}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#084040]">{etapa.title}</h3>
+                    <p className="text-[#0a4d4d] mt-1">{etapa.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 bg-[#EFF9F9] p-4 rounded-lg border border-[#D0E8E8]">
+              <p className="text-[#084040] font-medium text-center">
+                Documentação necessária para contratação
+              </p>
+              <ul className="flex flex-wrap justify-center gap-2 mt-3 text-sm">
+                {['Contrato Social', 'Documentos dos Sócios', 'Lista de Beneficiários', 'Comprovante de Endereço'].map((doc, i) => (
+                  <li key={i} className="bg-white px-3 py-1 rounded-full border border-[#D0E8E8]">
+                    {doc}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Section>
+
+        {/* CTA Final */}
+        <div className="mt-16 bg-gradient-to-r from-[#084040] to-[#0a4d4d] text-white py-12 px-6 rounded-xl text-center">
+          <h3 className="text-2xl font-bold mb-4">Invista na Saúde dos Seus Colaboradores</h3>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Solicite uma proposta personalizada para sua empresa
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/formulario?tipo=empresarial"
+              className="bg-white text-[#084040] hover:bg-[#EFF9F9] px-8 py-3 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
+            >
+              <FaFileAlt className="mr-2" /> Cotação Empresarial
+            </Link>
+            <Link
+              href="/contato"
+              className="border-2 border-white text-white hover:bg-white hover:text-[#084040] px-8 py-3 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
+            >
+              <FaPhoneAlt className="mr-2" /> Falar com RH
+            </Link>
+          </div>
+        </div>
       </ContentContainer>
     </div>
   );
