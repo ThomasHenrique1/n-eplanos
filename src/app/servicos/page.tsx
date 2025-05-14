@@ -18,7 +18,7 @@ const ServicesPage = () => {
 
       <ContentContainer>
         {/* Seção 1: Consultoria Personalizada - Versão refinada */}
-        <Section title="Consultoria Especializada" className="max-w-4xl mx-auto">
+        <Section title="Consultoria Especializada" titleAlign="left" titleColor="dark">
           <div className="space-y-8">
             <div className="border-l-4 border-[#0a4d4d] pl-6">
               <h3 className="text-xl font-semibold text-[#084040] mb-3">Para Você</h3>
@@ -71,7 +71,7 @@ const ServicesPage = () => {
         </Section>
 
         {/* Seção 2: Diferenciais - Versão minimalista */}
-        <Section title="Por Que Nos Escolher?" className="bg-white py-12 rounded-lg">
+        <Section title="Por Que Nos Escolher?" titleAlign="center" titleColor="medium">
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-[#084040] mb-2">Atendimento Ágil</h3>

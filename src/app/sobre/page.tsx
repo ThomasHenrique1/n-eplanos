@@ -43,7 +43,8 @@ const AboutPage = () => {
 
       <ContentContainer>
         {/* Seção: Nossa História */}
-        <Section title="Nossa Jornada" className="max-w-4xl mx-auto">
+        <Section title="Nossa Jornada" 
+        titleAlign="center" titleColor="dark">
           <div className="bg-white p-8 rounded-xl shadow-sm">
             <p className="text-[#0a4d4d] text-lg leading-relaxed mb-6">
               Fundada por profissionais com ampla experiência no mercado de saúde suplementar, nossa rede de corretores autônomos nasceu da necessidade de oferecer um serviço mais humano e transparente na intermediação de planos de saúde.
@@ -55,7 +56,7 @@ const AboutPage = () => {
         </Section>
 
         {/* Seção: Missão e Valores */}
-        <Section title="Nosso Compromisso" className="mt-16">
+        <Section title="Nosso Compromisso" titleAlign="center" titleColor="dark">
   <div className="flex flex-col md:flex-row gap-6 max-w-5xl mx-auto">
     {/* Card Missão */}
     <div className="flex-1 bg-white p-8 rounded-xl shadow-sm border-l-4 border-[#084040]">
@@ -105,7 +106,7 @@ const AboutPage = () => {
 </Section>
 
         {/* Seção: Benefícios - Atualizada */}
-        <Section title="Por Que Nos Escolher?" className="mt-16">
+        <Section title="Por Que Nos Escolher?" titleAlign="center" titleColor="dark">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl text-center hover:shadow-md transition-shadow">

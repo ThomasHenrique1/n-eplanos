@@ -83,7 +83,7 @@ export default function PlanoFamiliar() {
 
       <ContentContainer>
         {/* Seção 1: O que é */}
-        <Section title="Proteção Familiar" className="mt-16">
+        <Section title="Proteção Familiar" titleAlign="center" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -121,7 +121,7 @@ export default function PlanoFamiliar() {
         </Section>
 
         {/* Seção 2: Vantagens */}
-        <Section title="Vantagens do Plano Familiar" className="mt-16">
+        <Section title="Vantagens do Plano Familiar" titleAlign="center" titleColor="dark">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vantagens.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-[#E0F2F2]">
@@ -138,7 +138,7 @@ export default function PlanoFamiliar() {
         </Section>
 
         {/* Seção 3: Como contratar */}
-        <Section title="Contrate em 4 Passos" className="mt-16">
+        <Section title="Contrate em 4 Passos" titleAlign="left" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="grid md:grid-cols-2 gap-8">
               {etapasContratacao.map((etapa, index) => (
@@ -169,7 +169,7 @@ export default function PlanoFamiliar() {
         </Section>
 
         {/* Seção 4: Operadoras */}
-        <Section title="Nossas Operadoras Parceiras" className="mt-16">
+        <Section title="Nossas Operadoras Parceiras" titleAlign="center" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <p className="text-[#0a4d4d] text-center mb-8 max-w-2xl mx-auto">
               Trabalhamos com as melhores operadoras do mercado para oferecer cobertura de qualidade para sua família
