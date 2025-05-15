@@ -5,28 +5,28 @@ export default function PlanLinks() {
   const plans = [
     {
       title: "Plano Individual",
-      description: "Cobertura personalizada para você, com as melhores opções de hospitais e clínicas",
+      description: "Cobertura personalizada para você com acesso aos melhores hospitais e clínicas do país",
       href: "/plano-individual",
       icon: <FaUser className="text-3xl text-[#A1C7D6]" />,
       color: "bg-[#F0F9F9]"
     },
     {
       title: "Plano Familiar",
-      description: "Proteção completa para sua família com condições especiais e ampla rede credenciada",
+      description: "Proteção completa para toda sua família com condições especiais e ampla rede credenciada",
       href: "/plano-familiar",
       icon: <FaUsers className="text-3xl text-[#A1C7D6]" />,
       color: "bg-[#F0F9F9]"
     },
     {
       title: "Plano Empresarial",
-      description: "Soluções corporativas sob medida para empresas de todos os portes",
+      description: "Soluções corporativas personalizadas para empresas de todos os portes e segmentos",
       href: "/plano-empresarial",
       icon: <FaBuilding className="text-3xl text-[#A1C7D6]" />,
       color: "bg-[#F0F9F9]"
     },
     {
       title: "Plano por Adesão",
-      description: "Benefícios exclusivos para associados de entidades de classe e sindicatos",
+      description: "Condições exclusivas para associados de entidades de classe, sindicatos e conselhos",
       href: "/plano-adesao",
       icon: <FaHandshake className="text-3xl text-[#A1C7D6]" />,
       color: "bg-[#F0F9F9]"

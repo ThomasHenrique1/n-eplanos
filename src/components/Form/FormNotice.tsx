@@ -1,4 +1,4 @@
-import { FaExclamationTriangle, FaClipboardList, FaPhone, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaExclamationTriangle, FaClipboardList,FaWhatsapp, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 
 export const FormNotice = () => (
   <div className="space-y-5 mt-6">
@@ -43,7 +43,7 @@ export const FormNotice = () => (
                 <p className="text-sm text-gray-600 mb-2">Selecione seu meio de contato preferido:</p>
                 <div className="flex flex-wrap gap-3">
                   <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs">
-                    <FaPhone /> Ligação
+                    <FaPhoneAlt /> Ligação
                   </span>
                   <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-600 text-xs">
                     <FaWhatsapp /> WhatsApp

@@ -1,27 +1,17 @@
+export default function AddInfo() {
+  return (
+    <div className="space-y-2 max-w-10xl mx-auto">
+      <p className="text-xl leading-relaxed text-[#3A403F]">
+        Na nossa corretora especializada em planos de saúde, oferecemos soluções personalizadas para <span className="font-semibold text-[#084040]">pessoas físicas</span>, <span className="font-semibold text-[#084040]">profissionais liberais</span> (incluindo advogados, engenheiros, militares e demais categorias) e <span className="font-semibold text-[#084040]">empresas de todos os portes</span>. Trabalhamos com os melhores operadores do mercado para proporcionar a cobertura ideal para cada perfil, seja através de <span className="font-semibold text-[#0a4d4d]">planos coletivos por adesão</span> (vinculados à sua associação de classe) ou <span className="font-semibold text-[#0a4d4d]">planos individuais/familiares</span>, sempre com condições diferenciadas.
+      </p>
 
+      <p className="text-xl leading-relaxed text-[#3A403F]">
+        Nossos consultores especializados realizam uma <span className="font-semibold text-[#084040]">análise detalhada</span> das necessidades da sua família, considerando desde a abrangência da rede credenciada até aspectos como coparticipação e carências. Além disso, verificamos a possibilidade de utilizar seu vínculo profissional para <span className="font-semibold text-[#0a4d4d]">acessar benefícios exclusivos</span> e economizar significativamente no valor do seu plano de saúde, sem comprometer a qualidade da assistência médica.
+      </p>
 
-export default function AddInfo(){
-    return(
-        <>
-        <p className="mb-6 text-xl">
-        Se você está procurando uma corretora de plano de saúde para uma
-        contratação <span className="font-semibold">pessoa física</span>, plano de saúde para
-        <span className="font-semibold"> advogados, engenheiros, militares</span> ou qualquer que seja sua profissão, está no lugar certo.
-        Temos todos os tipos de planos <span className="font-semibold">coletivos por adesão</span> (vinculado à sua
-        categoria profissional) e planos <span className="font-semibold">pessoa física</span>.
+      <p className="text-xl leading-relaxed text-[#3A403F]">
+        Para <span className="font-semibold text-[#084040]">empresas</span>, oferecemos um <span className="font-semibold text-[#0a4d4d]">atendimento consultivo completo</span>, desde a análise de perfil dos colaboradores até a negociação de condições especiais com as operadoras. Nossa equipe está preparada para estruturar o melhor <span className="font-semibold text-[#0a4d4d]">Plano de Saúde Empresarial</span> ou <span className="font-semibold text-[#0a4d4d]">Convênio Médico Corporativo</span>, com soluções escaláveis que acompanham o crescimento do seu negócio e atendem às exigências da ANS (Agência Nacional de Saúde Suplementar).
       </p>
-      <p className="mb-6 text-xl">
-        Para sua <span className="font-semibold">família</span>, nossos corretores de plano de saúde são especializados
-        em todos os produtos que o mercado oferece. Aqui você
-        encontra tudo o que sua família precisa e ainda pode utilizar sua
-        categoria profissional para <span className="font-semibold">economizar ainda mais</span>.
-      </p>
-      <p className="mb-6 text-xl">
-        Para sua <span className="font-semibold">empresa</span>, temos uma equipe pronta para atendê-lo de forma
-        exclusiva e rápida. Um atendimento ágil para quem vai direto ao ponto
-        quando se trata de <span className="font-semibold">Planos de Saúde Empresarial</span> ou
-        <span className="font-semibold"> Convênio Médico Empresarial</span>.
-      </p>
-    </>
-    );
+    </div>
+  );
 }

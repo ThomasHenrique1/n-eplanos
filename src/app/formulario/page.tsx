@@ -3,9 +3,10 @@
 
 import { useState, useEffect } from "react";
 import { 
-  FaUser, FaBirthdayCake, FaPhone, FaEnvelope, 
+  FaUser, FaBirthdayCake, FaEnvelope, 
   FaBuilding, FaHeartbeat, FaGraduationCap, 
-  FaComments
+  FaComments,
+  FaPhoneAlt
 } from "react-icons/fa";
 
 import { FormFieldWrapper } from "../../components/Form/FormFieldWrapper";
@@ -170,7 +171,7 @@ export default function LeadForm() {
 
           {/* Linha 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormFieldWrapper icon={<FaPhone className="text-[#084040]" />} label="Telefone">
+            <FormFieldWrapper icon={<FaPhoneAlt className="text-[#084040]" />} label="Telefone">
               <InputField
                 type="text"
                 name="telefone"

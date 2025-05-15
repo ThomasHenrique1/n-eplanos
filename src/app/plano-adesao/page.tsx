@@ -75,7 +75,7 @@ export default function PlanoAdesao() {
 
       <ContentContainer>
         {/* Seção 1: O que é */}
-        <Section title="O que é o Plano por Adesão?" className="mt-16">
+        <Section title="O que é o Plano por Adesão?" titleAlign="left" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -115,7 +115,7 @@ export default function PlanoAdesao() {
         </Section>
 
         {/* Seção 2: Vantagens */}
-        <Section title="Principais Vantagens" className="mt-16">
+        <Section title="Principais Vantagens" titleAlign="center" titleColor="dark">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vantagens.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-[#E0F2F2]">
@@ -132,7 +132,7 @@ export default function PlanoAdesao() {
         </Section>
 
         {/* Seção 3: Como contratar */}
-        <Section title="Contratação em 4 Passos" className="mt-16">
+        <Section title="Contratação em 4 Passos" titleAlign="center" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="grid md:grid-cols-2 gap-8">
               {etapasContratacao.map((etapa, index) => (
@@ -170,13 +170,13 @@ export default function PlanoAdesao() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
-              href="/formulario?tipo=adesao"
+              href="/formulario"
               className="bg-white text-[#084040] hover:bg-[#EFF9F9] px-8 py-3 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
             >
               <FaFileAlt className="mr-2" /> Solicitar Cotação
             </Link>
             <Link
-              href="/contato"
+              href="https://wa.me/5511992320742"
               className="border-2 border-white text-white hover:bg-white hover:text-[#084040] px-8 py-3 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
             >
               <FaPhoneAlt className="mr-2" /> Falar com Consultor

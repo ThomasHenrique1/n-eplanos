@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
 
       <ContentContainer>
         {/* Seção 1: Dados Coletados */}
-        <Section title="1. Dados Coletados" className="bg-white rounded-xl shadow-sm p-8">
+        <Section title="1. Dados Coletados" titleAlign="left" titleColor="dark">
           <p className="text-[#0a4d4d] mb-6 text-lg">
             Coletamos apenas informações essenciais para oferecer um serviço personalizado de consultoria em planos de saúde:
           </p>
@@ -54,7 +54,7 @@ const PrivacyPolicy = () => {
         </div>
 
         {/* Seção 2: Finalidade */}
-        <Section title="2. Finalidade dos Dados" className="bg-white rounded-xl shadow-sm p-8">
+        <Section title="2. Finalidade dos Dados" titleAlign="left" titleColor="dark">
           <div className="flex items-start mb-6">
             <FaShieldAlt className="text-[#0a4d4d] text-2xl mr-4 mt-1 flex-shrink-0" />
             <p className="text-[#0a4d4d]">
@@ -84,7 +84,7 @@ const PrivacyPolicy = () => {
         </Section>
 
         {/* Seção 3: Compartilhamento */}
-        <Section title="3. Compartilhamento de Dados" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+        <Section title="3. Compartilhamento de Dados" titleAlign="left" titleColor="dark">
           <div className="flex items-start">
             <FaUserLock className="text-[#0a4d4d] text-2xl mr-4 mt-1 flex-shrink-0" />
             <div>
@@ -108,7 +108,7 @@ const PrivacyPolicy = () => {
         </Section>
 
         {/* Seção 4: Proteção */}
-        <Section title="4. Segurança dos Dados" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+        <Section title="4. Segurança dos Dados" titleAlign="left" titleColor="dark">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-1">
               <h3 className="font-semibold text-[#084040] mb-3">Medidas de Proteção</h3>
@@ -119,14 +119,14 @@ const PrivacyPolicy = () => {
             <div className="flex-1">
               <h3 className="font-semibold text-[#084040] mb-3">Acesso Restrito</h3>
               <p className="text-[#0a4d4d]">
-                Somos pessoal autorizado tem acesso aos dados, mediante autenticação rigorosa.
+                Somente pessoas autorizadas têm acesso aos dados, mediante autenticação rigorosa.
               </p>
             </div>
           </div>
         </Section>
 
         {/* Seção 5: Direitos */}
-        <Section title="5. Seus Direitos" className="mt-12 bg-white rounded-xl shadow-sm p-8">
+        <Section title="5. Seus Direitos" titleAlign="left" titleColor="dark">
           <p className="text-[#0a4d4d] mb-6">
             Conforme a Lei Geral de Proteção de Dados (LGPD), você possui direitos sobre seus dados pessoais:
           </p>

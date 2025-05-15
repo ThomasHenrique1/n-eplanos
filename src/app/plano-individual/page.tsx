@@ -76,7 +76,7 @@ export default function PlanoIndividual() {
 
       <ContentContainer>
         {/* Seção 1: O que é */}
-        <Section title="Conheça o Plano Individual" className="mt-16">
+        <Section title="Conheça o Plano Individual" titleAlign="left" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -114,7 +114,7 @@ export default function PlanoIndividual() {
         </Section>
 
         {/* Seção 2: Vantagens */}
-        <Section title="Vantagens Exclusivas" className="mt-16">
+        <Section title="Vantagens Exclusivas" titleAlign="center" titleColor="dark">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vantagens.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-[#E0F2F2]">
@@ -131,7 +131,7 @@ export default function PlanoIndividual() {
         </Section>
 
         {/* Seção 3: Como contratar */}
-        <Section title="Contratação em 5 Passos" className="mt-16">
+        <Section title="Contratação em 5 Passos" titleAlign="center" titleColor="dark">
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <div className="space-y-8">
               {etapasContratacao.map((etapa, index) => (
@@ -152,7 +152,7 @@ export default function PlanoIndividual() {
               </p>
               <div className="flex justify-center mt-3">
                 <Link 
-                  href="/contato" 
+                  href="https://wa.me/5511992320742" 
                   className="flex items-center text-[#084040] font-medium hover:text-[#0a4d4d]"
                 >
                   <FaPhoneAlt className="mr-2" /> Falar com Especialista
@@ -175,13 +175,7 @@ export default function PlanoIndividual() {
             >
               <FaFileAlt className="mr-2" /> Solicitar Cotação
             </Link>
-            <Link
-              href="/contato"
-              className="border-2 border-white text-white hover:bg-white hover:text-[#084040] px-8 py-3 rounded-lg font-semibold text-lg inline-flex items-center justify-center"
-            >
-              <FaPhoneAlt className="mr-2" /> Falar com Consultor
-            </Link>
-          </div>
+           </div>
         </div>
       </ContentContainer>
     </div>
