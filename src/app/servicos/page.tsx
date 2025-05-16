@@ -11,9 +11,7 @@ const ServicesPage = () => {
       <HeroSection
         title="Nossos Serviços"
         description="Oferecemos consultoria especializada em planos de saúde para indivíduos e empresas. Encontre a solução ideal para suas necessidades."
-        image="/logo.jpg"
-        ctaText="Faça sua Cotação"
-        ctaLink="/formulario"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//Servicos.jpg"
       />
 
       <ContentContainer>

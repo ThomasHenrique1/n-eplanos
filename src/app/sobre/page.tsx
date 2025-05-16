@@ -36,9 +36,7 @@ const AboutPage = () => {
          title="Conheça Nossa História"
          subtitle="Especialistas em planos de saúde com compromisso e transparência"
          description="Somos uma equipe de corretores dedicados a conectar você aos melhores planos de saúde do mercado."
-        image="/logo.jpg" // Imagem local
-        ctaText="Entre em Contato"
-        ctaLink="/formulario"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//Sobre%20Nos.jpg"
       />
 
       <ContentContainer>

@@ -25,13 +25,12 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-[#ffffff]">
-      <HeroSection
-        title="Seu Plano de Saúde Ideal Está Aqui!"
-        description="Garanta o melhor plano de saúde para você e sua família com preços acessíveis."
-        image="/logo.jpg" // Imagem local
-        ctaText="Faça sua Cotação"
-        ctaLink="/formulario"
-      />
+     <HeroSection
+          title="Seu Plano de Saúde Ideal Está Aqui!"
+          description="Garanta o melhor plano de saúde para você e sua família com preços acessíveis e cobertura completa."
+          image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/logo-principal//home.jpg"
+          ctaText="Faça sua Cotação"
+        />
       {/* Container de conteúdo */}
       <ContentContainer>
       
