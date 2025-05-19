@@ -2,7 +2,7 @@ export default function AddInfo() {
   return (
     <div className="space-y-2 max-w-10xl mx-auto">
       <p className="text-xl leading-relaxed text-[#3A403F]">
-        Na nossa corretora especializada em planos de saúde, oferecemos soluções personalizadas para <span className="font-semibold text-[#084040]">pessoas físicas</span>, <span className="font-semibold text-[#084040]">profissionais liberais</span> (incluindo advogados, engenheiros, militares e demais categorias) e <span className="font-semibold text-[#084040]">empresas de todos os portes</span>. Trabalhamos com os melhores operadores do mercado para proporcionar a cobertura ideal para cada perfil, seja através de <span className="font-semibold text-[#0a4d4d]">planos coletivos por adesão</span> (vinculados à sua associação de classe) ou <span className="font-semibold text-[#0a4d4d]">planos individuais/familiares</span>, sempre com condições diferenciadas.
+        Na nossa corretora especializada em planos de saúde, oferecemos soluções personalizadas para <span className="font-semibold text-[#084040]">pessoas físicas</span>, <span className="font-semibold text-[#084040]">profissionais liberais</span> (incluindo advogados, engenheiros, militares e demais categorias) e <span className="font-semibold text-[#084040]">empresas de todos os portes</span>. Trabalhamos com as melhores operadoras do mercado para proporcionar a cobertura ideal para cada perfil, seja através de <span className="font-semibold text-[#0a4d4d]">planos coletivos por adesão</span> (vinculados à sua associação de classe) ou <span className="font-semibold text-[#0a4d4d]">planos individuais/familiares</span>, sempre com condições diferenciadas.
       </p>
 
       <p className="text-xl leading-relaxed text-[#3A403F]">

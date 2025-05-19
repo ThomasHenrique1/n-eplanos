@@ -68,9 +68,7 @@ export default function PlanoAdesao() {
         title="Plano de Saúde por Adesão"
         subtitle="Descontos exclusivos para profissionais de diversas categorias"
         description="Condições especiais para associados de entidades de classe, sindicatos e conselhos profissionais"
-        image="/logo.jpg"
-        ctaText="Solicitar Cotação"
-        ctaLink="/formulario?tipo=adesao"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-planos//business%20people%20discussion.jpg"
       />
 
       <ContentContainer>

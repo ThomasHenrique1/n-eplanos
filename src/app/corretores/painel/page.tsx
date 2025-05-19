@@ -153,62 +153,68 @@ export default function PainelPage() {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#084040] to-[#0D0D0D] p-4 md:p-8 text-white">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="max-w-6xl mx-auto">
-          <CorretorHeader 
-            nome={corretorNome}
-            mostrarBotaoDashboard={true}
-            dashboardPath="painel/dashboard"
-          />
-        </div>
-        
-        {/* Cards de Resumo */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <SummaryCard
-            title="Leads Hoje"
-            value={summaryData.today || 0}
-            icon={<FiUser size={20} />}
-            progressValue={Math.min((summaryData.today || 0) * 10, 100)}
-            progressColor="bg-green-400"
-          />
-          
-          <SummaryCard
-            title="Leads Ontem"
-            value={summaryData.yesterday || 0}
-            icon={<FiClock size={20} />}
-            progressValue={Math.min((summaryData.yesterday || 0) * 10, 100)}
-            progressColor="bg-yellow-400"
-          />
-          
-          <SummaryCard
-            title="Lembretes Urgentes"
-            value={summaryData.urgent || 0}
-            icon={<FiAlertTriangle size={20} className="text-yellow-400" />}
-            color="text-yellow-400"
-            progressValue={Math.min((summaryData.urgent || 0) * 20, 100)}
-            progressColor="bg-red-400"
-          />
-        </div>
-  
-        {/* Notificações */}
-        <div className="bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm overflow-hidden mb-8">
-          <NotificationsHeader count={notifications.length} />
-          
-          {notifications.length > 0 ? (
-            <NotificationList notifications={notifications} />
-          ) : (
-            <EmptyNotifications />
-          )}
-        </div>
-  
-        {/* Lembretes e Email */}
-        <Reminder />
-  
-        {/* Footer */}
-        <Footer />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0a2e2e] via-[#084040] to-[#0D0D0D] p-4 md:p-8 text-white">
+  <div className="max-w-7xl mx-auto space-y-8">
+    {/* Header */}
+    <div className="animate-fade-in">
+      <CorretorHeader 
+        nome={corretorNome}
+        mostrarBotaoDashboard={true}
+        dashboardPath="painel/dashboard"
+      />
     </div>
+    
+    {/* Cards de Resumo */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-slide-up">
+      <SummaryCard
+        title="Leads Hoje"
+        value={summaryData.today || 0}
+        icon={<FiUser size={24} className="text-green-400" />}
+        color="text-green-400"
+        progressValue={Math.min((summaryData.today || 0) * 10, 100)}
+        progressColor="bg-gradient-to-r from-green-400 to-green-500"
+      />
+      
+      <SummaryCard
+        title="Leads Ontem"
+        value={summaryData.yesterday || 0}
+        icon={<FiClock size={24} className="text-blue-400" />}
+        color="text-blue-400"
+        progressValue={Math.min((summaryData.yesterday || 0) * 10, 100)}
+        progressColor="bg-gradient-to-r from-blue-400 to-blue-500"
+      />
+      
+      <SummaryCard
+        title="Lembretes Urgentes"
+        value={summaryData.urgent || 0}
+        icon={<FiAlertTriangle size={24} className="text-amber-400" />}
+        color="text-amber-400"
+        progressValue={Math.min((summaryData.urgent || 0) * 20, 100)}
+        progressColor="bg-gradient-to-r from-amber-400 to-amber-500"
+      />
+    </div>
+
+    {/* Notificações */}
+    <div className="bg-white/5 rounded-xl border border-white/10 backdrop-blur-lg overflow-hidden mb-8 transition-all hover:shadow-lg animate-fade-in">
+      <NotificationsHeader count={notifications.length} />
+      
+      {notifications.length > 0 ? (
+        <NotificationList notifications={notifications} />
+      ) : (
+        <EmptyNotifications />
+      )}
+    </div>
+
+    {/* Lembretes e Email */}
+    <div className="animate-slide-up">
+      <Reminder />
+    </div>
+
+    {/* Footer */}
+    <div className="animate-fade-in">
+      <Footer />
+    </div>
+  </div>
+</div>
   );
 }

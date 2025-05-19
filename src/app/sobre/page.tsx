@@ -44,12 +44,13 @@ const AboutPage = () => {
         <Section title="Nossa Jornada" 
         titleAlign="center" titleColor="dark">
           <div className="bg-white p-8 rounded-xl shadow-sm">
-            <p className="text-[#0a4d4d] text-lg leading-relaxed mb-6">
-              Fundada por profissionais com ampla experiência no mercado de saúde suplementar, nossa rede de corretores autônomos nasceu da necessidade de oferecer um serviço mais humano e transparente na intermediação de planos de saúde.
-            </p>
-            <p className="text-[#0a4d4d] text-lg leading-relaxed">
-              Ao longo dos anos, construímos parcerias sólidas com as principais operadoras do país, sempre com foco em levar até você as melhores condições e coberturas disponíveis no mercado.
-            </p>
+        <p className="text-[#000000] text-lg leading-relaxed mb-6">
+          Nossa rede de corretores autônomos nasceu do compromisso de oferecer um atendimento mais humano, transparente e eficiente na intermediação de planos de saúde. Fundada por especialistas com mais de 15 anos de experiência no setor, reunimos conhecimento prático e sensibilidade para entender as reais necessidades de cada cliente.
+        </p>
+        <p className="text-[#000000] text-lg leading-relaxed">
+          Atuamos com um portfólio amplo de planos de saúde regulamentados pela ANS, oferecendo opções de diferentes operadoras e categorias. Nosso objetivo é encontrar a solução mais adequada para você, com base em critérios como cobertura, rede credenciada, custo-benefício e perfil de contratação.
+        </p>
+
           </div>
         </Section>
 

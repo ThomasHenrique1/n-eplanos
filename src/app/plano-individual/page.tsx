@@ -69,9 +69,7 @@ export default function PlanoIndividual() {
         title="Plano de Saúde Individual"
         subtitle="Solução personalizada para sua saúde"
         description="Cobertura médica completa sem vínculo empresarial, com flexibilidade para incluir sua família"
-        image="/logo.jpg"
-        ctaText="Solicitar Cotação"
-        ctaLink="/formulario"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-planos//men%20independent%20person%20wellness.jpg"
       />
 
       <ContentContainer>

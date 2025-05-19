@@ -92,9 +92,7 @@ export default function PlanoEmpresarial() {
         title="Plano de Saúde Empresarial"
         subtitle="Solução completa para a saúde dos seus colaboradores"
         description="Benefícios corporativos com condições especiais para empresas de todos os portes"
-        image="/logo.jpg"
-        ctaText="Solicitar Cotação Empresarial"
-        ctaLink="/formulario?tipo=empresarial"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-planos//corporate%20health%20plan.jpg"
       />
 
       <ContentContainer>

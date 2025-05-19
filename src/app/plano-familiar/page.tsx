@@ -76,9 +76,7 @@ export default function PlanoFamiliar() {
         title="Plano de Saúde Familiar"
         subtitle="Proteção completa para quem você ama"
         description="Cobertura médica integrada para toda a família com condições especiais"
-        image="/logo.jpg"
-        ctaText="Cotação para Família"
-        ctaLink="/formulario?tipo=familiar"
+        image="https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-planos//family%20with%20children%20outdoors.jpg"
       />
 
       <ContentContainer>
