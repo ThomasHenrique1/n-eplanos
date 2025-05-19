@@ -10,7 +10,7 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { name: "Home", path: "/" },
+    { name: "Início", path: "/" },
     { name: "Serviços", path: "/servicos" },
     { name: "Sobre Nós", path: "/sobre" },
     { name: "Política", path: "/politica" }

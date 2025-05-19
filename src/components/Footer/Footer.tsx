@@ -31,7 +31,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                { name: "Home", path: "/" },
+                { name: "Início", path: "/" },
                 { name: "Serviços", path: "/servicos" },
                 { name: "Sobre Nós", path: "/sobre" },
                 { name: "Contato", path: "/formulario" }
