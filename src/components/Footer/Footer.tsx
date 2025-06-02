@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -61,9 +61,7 @@ export default function Footer() {
             <div className="flex justify-center md:justify-start space-x-5">
               {[
                 { icon: <FaWhatsapp />, url: "https://wa.me/5511992320742" },
-                { icon: <FaFacebook />, url: "#" },
-                { icon: <FaInstagram />, url: "#" },
-                { icon: <FaLinkedin />, url: "#" }
+          
               ].map((social, index) => (
                 <a
                   key={index}
@@ -87,9 +85,14 @@ export default function Footer() {
             <Link href="/politica" className="hover:text-[#A1C7D6] transition-colors">
               Política de Privacidade
             </Link>
-            <Link href="/termos" className="hover:text-[#A1C7D6] transition-colors">
-              Termos de Serviço
-            </Link>
+            <a 
+              href="https://github.com/ThomasHenrique1/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[#A1A6A2] hover:text-[#A1C7D6] transition-colors text-sm"
+            >
+             Dev: T.H.
+            </a>
           </div>
         </div>
       </div>

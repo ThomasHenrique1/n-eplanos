@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import Section from "@/components/Section/Section";
@@ -153,19 +154,12 @@ const PrivacyPolicy = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="mailto:privacidade@seudominio.com"
+              href="mailto:thomasnhenrique35@gmail.com"
               className="bg-white text-[#084040] hover:bg-[#EFF9F9] py-3 px-6 rounded-lg font-medium inline-flex items-center justify-center"
             >
               <FaEnvelope className="mr-2" />
               Enviar E-mail
             </a>
-            <Link
-              href="/formulario"
-              className="border-2 border-white text-white hover:bg-white hover:text-[#084040] py-3 px-6 rounded-lg font-medium inline-flex items-center justify-center"
-            >
-              <FaChevronRight className="mr-2" />
-              Formulário de Contato
-            </Link>
           </div>
         </div>
       </ContentContainer>

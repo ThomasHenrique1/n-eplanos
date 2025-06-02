@@ -19,6 +19,7 @@ export default function Home() {
     'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo/qualicorp.png',
     'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo/sulamerica.png',
     'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo/unimedseguros.webp',
+    'https://tovqhpslvhvyfpeqmvkf.supabase.co/storage/v1/object/public/image-logo//prevent-senior.png',
   ];
 
 
